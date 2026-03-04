@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <title>Amey Chaudhari | ML Engineer & Robotics Enthusiast</title>
+    <meta name="description"
+        content="Portfolio of Amey Chaudhari – IIT Delhi student, ML Engineer enthusiast, Robotics Club member, and Competitive Programmer. Explore projects in AI, SLAM robotics, and more.">
+    <meta name="keywords" content="Amey Chaudhari, IIT Delhi, Machine Learning, Robotics, SLAM, ROS2, Portfolio">
+    <meta name="author" content="Amey Chaudhari">
+    <meta property="og:title" content="Amey Chaudhari | ML Engineer & Robotics Enthusiast">
+    <meta property="og:description" content="3D Portfolio – AI, Robotics, Competitive Programming">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- ════════════════════ POWER BUTTON ════════════════════ -->
+    <button id="power-btn" class="offline" aria-label="Power">
+        <div class="power-btn-glitch-wrapper">
+            <svg class="glitch-layer base-layer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                <line x1="12" y1="2" x2="12" y2="12" />
+            </svg>
+            <svg class="glitch-layer glitch-layer-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                <line x1="12" y1="2" x2="12" y2="12" />
+            </svg>
+            <svg class="glitch-layer glitch-layer-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                <line x1="12" y1="2" x2="12" y2="12" />
+            </svg>
+        </div>
+    </button>
+
+    <!-- ════════════════════ BOOT SCREEN OVERLAY ════════════════════ -->
+    <div id="boot-screen">
+        <canvas id="boot-matrix"></canvas>
+        <div id="boot-terminal">
+            <div id="boot-log"></div>
+            <span id="boot-cursor" class="boot-cursor">█</span>
+        </div>
+        <p id="boot-hint">SYSTEM OFFLINE &mdash; Press power to initialize</p>
+    </div>
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-rain"></canvas>
+
+    <!-- Three.js 3D Background -->
+    <div id="three-bg"></div>
+
+    <!-- Main Content Wrapper (hidden until boot) -->
+    <div id="main-content" class="content-hidden">
+
+        <!-- Navigation -->
+        <nav id="navbar">
+            <div class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">AC</span>
+                <span class="logo-bracket">/&gt;</span>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero" class="nav-link active" data-section="hero">Home</a></li>
+                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+                <li><a href="#competitive" class="nav-link" data-section="competitive">CP Profiles</a></li>
+                <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- ════════════════════ HERO SECTION ════════════════════ -->
+        <section id="hero" class="section hero-section">
+            <div class="hero-content hero-split">
+                <!-- Left: Name block -->
+                <div class="hero-left">
+                    <p class="hero-greeting hero-anim-item">&gt; initializing profile...</p>
+                    <h1 class="hero-name glitch hero-anim-item" data-text="AMEY CHAUDHARI">AMEY CHAUDHARI</h1>
+                    <div class="hero-tagline hero-anim-item">
+                        <span class="tagline-prefix">&gt;&gt;&gt; </span>
+                        <span id="typed-text" class="typed-text"></span>
+                        <span class="cursor">█</span>
+                    </div>
+                    <div class="hero-badges hero-anim-item">
+                        <span class="badge"><i class="fas fa-graduation-cap"></i> IIT Delhi</span>
+                        <span class="badge"><i class="fas fa-robot"></i> Robotics Club</span>
+                        <span class="badge"><i class="fas fa-brain"></i> ML Engineer</span>
+                        <span class="badge"><i class="fas fa-code"></i> CP Enthusiast</span>
+                    </div>
+                    <div class="hero-cta hero-anim-item">
+                        <a href="#projects" class="cta-btn primary">
+                            <span>View Projects</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#contact" class="cta-btn secondary">
+                            <span>Contact Me</span>
+                            <i class="fas fa-terminal"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Right: Description block -->
+                <div class="hero-right hero-anim-item">
+                    <div class="hero-desc-card">
+                        <p class="hero-desc-label">// who_am_i</p>
+                        <p class="hero-desc-text">Passionate ML Engineer & Robotics enthusiast at <span
+                                class="highlight">IIT Delhi</span>. Building intelligent systems — from neural networks
+                            to autonomous SLAM robots. Competitive programmer who loves turning complex problems into
+                            elegant code.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Social strip: far-right edge -->
+            <div class="hero-social-strip hero-anim-item">
+                <a href="https://github.com/amey1942007" target="_blank" rel="noopener" title="GitHub"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389" target="_blank" rel="noopener"
+                    title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://leetcode.com/u/Amey19/" target="_blank" rel="noopener" title="LeetCode"><i
+                        class="fas fa-code"></i></a>
+                <a href="https://www.instagram.com/itz_amey19/" target="_blank" rel="noopener" title="Instagram"><i
+                        class="fab fa-instagram"></i></a>
+            </div>
+            <div class="scroll-indicator hero-anim-item">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+                <p>scroll down</p>
+            </div>
+        </section>
+
+        <!-- ════════════════════ ABOUT SECTION ════════════════════ -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    About Me
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <div class="about-grid">
+                    <div class="about-card tilt-card reveal-left">
+                        <div class="card-inner">
+                            <div class="about-image-wrapper">
+                                <img src="assets/linkedin_profile.png" alt="Amey Chaudhari LinkedIn Profile"
+                                    class="about-image">
+                                <div class="image-overlay"></div>
+                            </div>
+                            <div class="about-social-strip">
+                                <a href="https://github.com/amey1942007" target="_blank" rel="noopener"
+                                    title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389" target="_blank"
+                                    rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://www.instagram.com/itz_amey19/" target="_blank" rel="noopener"
+                                    title="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="https://leetcode.com/u/Amey19/" target="_blank" rel="noopener"
+                                    title="LeetCode"><i class="fas fa-code"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-info reveal-right">
+                        <div class="terminal-window">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                                <span class="terminal-title">about_amey.sh</span>
+                            </div>
+                            <div class="terminal-body">
+                                <p class="terminal-line"><span class="prompt">$</span> cat bio.txt</p>
+                                <p class="terminal-output">Passionate ML Engineer and Robotics enthusiast currently
+                                    pursuing
+                                    my undergraduate studies at <span class="highlight">IIT Delhi</span>. I build
+                                    intelligent systems — from neural networks that classify fashion items to
+                                    autonomous
+                                    robots that map their environment using SLAM.</p>
+                                <br>
+                                <p class="terminal-line"><span class="prompt">$</span> cat education.json</p>
+                                <div class="education-block">
+                                    <div class="edu-item">
+                                        <span class="edu-icon"><i class="fas fa-university"></i></span>
+                                        <div class="edu-details">
+                                            <h4>Indian Institute of Technology, Delhi</h4>
+                                            <p class="edu-sub">B.Tech | 1st Semester SPI: <span
+                                                    class="highlight">9.0</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <p class="terminal-line"><span class="prompt">$</span> cat coursework.list</p>
+                                <div class="coursework-tags">
+                                    <span class="course-tag">COL100 – Intro to Programming</span>
+                                    <span class="course-tag">MTL100 – Calculus</span>
+                                    <span class="course-tag">ELL100 – Intro to EE</span>
+                                    <span class="course-tag">PYL100 – Electrodynamics</span>
+                                    <span class="course-tag">PYP100 – Physics Lab</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ 3D PHONE DINO GAME ════════════════════ -->
+        <section id="dino-phone" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    Take a Break
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <p class="dino-subtitle reveal-up">Play the classic Dino game while you're here!</p>
+                <div class="phone-3d-wrapper reveal-up">
+                    <div class="phone-frame tilt-card" id="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <canvas id="dino-canvas"></canvas>
+                            <div class="dino-overlay" id="dino-overlay">
+                                <p class="dino-start-text">▶ CLICK / SPACE TO START</p>
+                            </div>
+                        </div>
+                        <div class="phone-home-btn"></div>
+                    </div>
+                    <div class="phone-shadow"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ SKILLS SECTION ════════════════════ -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    Tech Stack
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <div class="skills-grid">
+                    <div class="skill-card reveal-up" style="--delay: 0.1s">
+                        <div class="skill-icon"><i class="fab fa-python"></i></div>
+                        <h4>Python</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.2s">
+                        <div class="skill-icon"><i class="fas fa-fire"></i></div>
+                        <h4>PyTorch</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.3s">
+                        <div class="skill-icon"><i class="fas fa-robot"></i></div>
+                        <h4>ROS2</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.4s">
+                        <div class="skill-icon"><i class="fas fa-cogs"></i></div>
+                        <h4>C / C++</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="75"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.5s">
+                        <div class="skill-icon"><i class="fas fa-map-marked-alt"></i></div>
+                        <h4>SLAM</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.6s">
+                        <div class="skill-icon"><i class="fas fa-cube"></i></div>
+                        <h4>Gazebo</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="78"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.7s">
+                        <div class="skill-icon"><i class="fas fa-brain"></i></div>
+                        <h4>Machine Learning</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="82"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.8s">
+                        <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                        <h4>Git / GitHub</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card reveal-up" style="--delay: 0.9s">
+                        <div class="skill-icon"><i class="fab fa-linux"></i></div>
+                        <h4>Linux</h4>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-level="88"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ PROJECTS SECTION ════════════════════ -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    Projects
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <div class="projects-grid">
+                    <!-- Project 1: Fashion MNIST -->
+                    <div class="project-card tilt-card reveal-left">
+                        <div class="project-image-wrapper">
+                            <img src="assets/fashion_mnist_project.png" alt="Fashion MNIST PyTorch Classifier"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/Fashion_MNIST-Pytorch-Model" target="_blank"
+                                        rel="noopener" class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot completed"></span> Completed
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Fashion MNIST – PyTorch Classifier</h3>
+                            <p class="project-description">A feed-forward Neural Network built in PyTorch that
+                                classifies
+                                images from the Fashion MNIST dataset — 60,000 training samples across 10 clothing
+                                categories. Achieves <span class="highlight">88% accuracy</span> on the test set.
+                            </p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Architecture</span>
+                                    <span class="detail-value">784 → 512 → 512 → 10 (ReLU)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Loss</span>
+                                    <span class="detail-value">CrossEntropyLoss</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Optimizer</span>
+                                    <span class="detail-value">SGD (lr=0.01)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Epochs</span>
+                                    <span class="detail-value">25 (Batch: 100)</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">PyTorch</span>
+                                <span class="tag">Neural Network</span>
+                                <span class="tag">Image Classification</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: ROS Lidar Bot -->
+                    <div class="project-card tilt-card reveal-right">
+                        <div class="project-image-wrapper">
+                            <img src="assets/slam_robot_project.png" alt="ROS Lidar Bot – SLAM Robot"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank"
+                                        rel="noopener" class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot in-progress"></span> In Development
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">ROS Lidar Bot – SLAM Autonomous Robot</h3>
+                            <p class="project-description">A comprehensive differential-drive mobile robot running
+                                on <span class="highlight">ROS2 Humble</span> with Gazebo Ignition. Equipped with 2D
+                                LiDAR for
+                                real-time SLAM mapping via SLAM Toolbox, Nav2 path planning, and custom
+                                teleoperation.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Platform</span>
+                                    <span class="detail-value">ROS2 Humble + Gazebo Ignition</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">SLAM</span>
+                                    <span class="detail-value">SLAM Toolbox (Async)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Navigation</span>
+                                    <span class="detail-value">Nav2 + DWB Planner</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Model</span>
+                                    <span class="detail-value">URDF/Xacro with LiDAR Plugin</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">ROS2</span>
+                                <span class="tag">SLAM</span>
+                                <span class="tag">Gazebo</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Nav2</span>
+                            </div>
+                            <div class="project-roadmap">
+                                <h4><i class="fas fa-road"></i> Roadmap</h4>
+                                <ul>
+                                    <li><i class="fas fa-camera"></i> Depth Camera + OpenCV</li>
+                                    <li><i class="fas fa-microchip"></i> Raspberry Pi Hardware Port</li>
+                                    <li><i class="fas fa-users"></i> Multi-Robot Fleet Operations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ COMPETITIVE PROGRAMMING ════════════════════ -->
+        <section id="competitive" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    Competitive Programming
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <div class="cp-grid">
+                    <a href="https://leetcode.com/u/Amey19/" target="_blank" rel="noopener"
+                        class="cp-card tilt-card reveal-left" id="leetcode-card">
+                        <div class="cp-icon-wrapper">
+                            <div class="cp-icon leetcode-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                                    <path
+                                        d="M13.483 0a1.374 1.374 0 0 0-.961.442L7.116 6.549a3.206 3.206 0 0 0-.855 2.818l.955 5.572a3.206 3.206 0 0 0 2.037 2.446l5.335 1.903a3.206 3.206 0 0 0 3.199-.508l4.968-4.272a1.374 1.374 0 0 0 .143-1.937l-.32-.371a1.374 1.374 0 0 0-1.937-.143L16.03 16.35a.456.456 0 0 1-.455.072l-5.335-1.903a.456.456 0 0 1-.29-.348l-.955-5.572a.456.456 0 0 1 .122-.401l5.406-6.107a.456.456 0 0 1 .614-.065l4.56 3.323a1.374 1.374 0 0 0 1.937-.143l.32-.371a1.374 1.374 0 0 0-.143-1.937L17.22.664A3.206 3.206 0 0 0 13.483 0zM7.116 17.584a1.374 1.374 0 0 0-.961.442l-.32.371a1.374 1.374 0 0 0 .143 1.937l4.968 4.272a3.206 3.206 0 0 0 3.199.508l5.335-1.903a3.206 3.206 0 0 0 2.037-2.446l.955-5.572a.456.456 0 0 0-.122-.401l-.32-.371a.456.456 0 0 0-.614-.065l-4.56 3.323a.456.456 0 0 1-.455.072l-5.335-1.903" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="cp-info">
+                            <h3>LeetCode</h3>
+                            <p class="cp-handle">@Amey19</p>
+                            <p class="cp-desc">Solving algorithmic problems and sharpening DSA skills</p>
+                        </div>
+                        <div class="cp-arrow"><i class="fas fa-external-link-alt"></i></div>
+                    </a>
+
+                    <a href="https://codeforces.com/" target="_blank" rel="noopener"
+                        class="cp-card tilt-card reveal-right" id="codeforces-card">
+                        <div class="cp-icon-wrapper">
+                            <div class="cp-icon codeforces-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                                    <path
+                                        d="M4.5 7.5A1.5 1.5 0 0 1 6 9v10.5A1.5 1.5 0 0 1 4.5 21h-3A1.5 1.5 0 0 1 0 19.5V9a1.5 1.5 0 0 1 1.5-1.5h3zm9-4.5A1.5 1.5 0 0 1 15 4.5v15a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 19.5v-15A1.5 1.5 0 0 1 10.5 3h3zm9 7.5A1.5 1.5 0 0 1 24 12v7.5a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5h3z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="cp-info">
+                            <h3>Codeforces</h3>
+                            <p class="cp-handle">Competitive Programmer</p>
+                            <p class="cp-desc">Competing in contests and building problem-solving skills</p>
+                        </div>
+                        <div class="cp-arrow"><i class="fas fa-external-link-alt"></i></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ EXPERIENCE SECTION ════════════════════ -->
+        <section id="experience" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    Experience
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <div class="timeline">
+                    <div class="timeline-item reveal-left">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Feb 2026 – Mar 2026</div>
+                            <h3>Activity Head – TRYST 2026</h3>
+                            <h4>IIT Delhi Annual Tech Festival</h4>
+                            <p>Leading activity planning and coordination for TRYST, IIT Delhi's flagship annual
+                                technical
+                                festival.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item reveal-right">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Jan 2026 – Feb 2026</div>
+                            <h3>Activity Head – BEcon'26 A&F</h3>
+                            <h4>eDC (Entrepreneurship Development Cell), IIT Delhi</h4>
+                            <p>Led activity planning and execution for the annual entrepreneurship conclave at IIT
+                                Delhi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item reveal-left">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Dec 2025</div>
+                            <h3>Head Volunteer</h3>
+                            <h4>Office of Career Services, IIT Delhi</h4>
+                            <p>Coordinated with top companies — EY Parthenon, BlackRock, Deutsche Bank, American
+                                Express,
+                                SNV Aviation, Nation with Namo, and Augnito AI — managing logistics and team
+                                operations.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item reveal-right">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">2025 – Present</div>
+                            <h3>Member – Robotics Club</h3>
+                            <h4>Robotics Club & Aries AI Society, IIT Delhi</h4>
+                            <p>Currently working on ML and robotics projects. Participated in <span
+                                    class="highlight">RoboGambit</span> — a robotics competition organized jointly
+                                by the
+                                Robotics Club IITD and Aries Club IITD. Building autonomous robots with ROS2, SLAM,
+                                LiDAR,
+                                and Nav2.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ CONTACT SECTION ════════════════════ -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title reveal-up">
+                    <span class="title-decorator">&lt;</span>
+                    Contact Me
+                    <span class="title-decorator">/&gt;</span>
+                </h2>
+                <div class="contact-grid">
+                    <div class="contact-info-panel reveal-left">
+                        <div class="contact-terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                                <span class="terminal-title">get_in_touch.sh</span>
+                            </div>
+                            <div class="terminal-body">
+                                <p class="terminal-line"><span class="prompt">$</span> echo "Let's build something
+                                    amazing"
+                                </p>
+                                <p class="terminal-output">I'm always open to discussing new projects, creative
+                                    ideas, or
+                                    opportunities to be part of your vision.</p>
+                            </div>
+                        </div>
+                        <div class="contact-links">
+                            <a href="mailto:ameychaudhari19@gmail.com" class="contact-link-item">
+                                <div class="contact-link-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="contact-link-text">
+                                    <span class="contact-label">Email</span>
+                                    <span class="contact-value">ameychaudhari19@gmail.com</span>
+                                </div>
+                            </a>
+                            <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389" target="_blank"
+                                rel="noopener" class="contact-link-item">
+                                <div class="contact-link-icon"><i class="fab fa-linkedin"></i></div>
+                                <div class="contact-link-text">
+                                    <span class="contact-label">LinkedIn</span>
+                                    <span class="contact-value">Amey Chaudhari</span>
+                                </div>
+                            </a>
+                            <a href="https://github.com/amey1942007" target="_blank" rel="noopener"
+                                class="contact-link-item">
+                                <div class="contact-link-icon"><i class="fab fa-github"></i></div>
+                                <div class="contact-link-text">
+                                    <span class="contact-label">GitHub</span>
+                                    <span class="contact-value">amey1942007</span>
+                                </div>
+                            </a>
+                            <a href="https://www.instagram.com/itz_amey19/" target="_blank" rel="noopener"
+                                class="contact-link-item">
+                                <div class="contact-link-icon"><i class="fab fa-instagram"></i></div>
+                                <div class="contact-link-text">
+                                    <span class="contact-label">Instagram</span>
+                                    <span class="contact-value">@itz_amey19</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-form-panel reveal-right">
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="name"><i class="fas fa-user"></i> Name</label>
+                                <input type="text" id="name" name="name" placeholder="John Doe" required>
+                                <div class="input-glow"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-at"></i> Email</label>
+                                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                                <div class="input-glow"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject"><i class="fas fa-tag"></i> Subject</label>
+                                <input type="text" id="subject" name="subject" placeholder="Project Collaboration"
+                                    required>
+                                <div class="input-glow"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
+                                <textarea id="message" name="message" rows="5"
+                                    placeholder="Let's build something cool..." required></textarea>
+                                <div class="input-glow"></div>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <span class="btn-text">Send Message</span>
+                                <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                                <div class="btn-glitch"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════ FOOTER ════════════════════ -->
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>
+                    <span class="logo-text">Amey Chaudhari</span>
+                    <span class="logo-bracket">/&gt;</span>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://github.com/amey1942007" target="_blank" rel="noopener" title="GitHub"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389" target="_blank" rel="noopener"
+                        title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://leetcode.com/u/Amey19/" target="_blank" rel="noopener" title="LeetCode"><i
+                            class="fas fa-code"></i></a>
+                    <a href="https://www.instagram.com/itz_amey19/" target="_blank" rel="noopener" title="Instagram"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="mailto:ameychaudhari19@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+                <p class="footer-copy">
+                    <span class="terminal-prompt">&gt;</span> Designed & built by <span class="highlight">Amey
+                        Chaudhari</span> &copy; 2026
+                </p>
+                <p class="footer-tagline">Made with <i class="fas fa-heart" style="color: #00ff41;"></i> and lots of
+                    <i class="fas fa-coffee" style="color: #00ff41;"></i>
+                </p>
+            </div>
+        </footer>
+
+    </div><!-- end #main-content -->
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
