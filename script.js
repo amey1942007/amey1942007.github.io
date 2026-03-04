@@ -609,7 +609,7 @@ function initTiltCards() {
 function initContactForm() {
     const form = document.getElementById('contact-form');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const name = document.getElementById('name').value;
@@ -617,23 +617,57 @@ function initContactForm() {
         const subject = document.getElementById('subject').value;
         const message = document.getElementById('message').value;
 
-        // Construct mailto link
-        const mailtoLink = `mailto:ameychaudhari19@gmail.com?subject=${encodeURIComponent(subject + ' - from ' + name)}&body=${encodeURIComponent(
-            `From: ${name}\nEmail: ${email}\n\n${message}`
-        )}`;
-
-        window.location.href = mailtoLink;
-
-        // Button feedback
+        // Button feedback - Loading
         const btn = form.querySelector('.submit-btn');
         const originalText = btn.querySelector('.btn-text').textContent;
-        btn.querySelector('.btn-text').textContent = 'Opening Email Client...';
+        btn.querySelector('.btn-text').textContent = 'Sending...';
         btn.style.background = 'linear-gradient(135deg, #00cc33, #00ff41)';
 
+        // Web3Forms Integration
+        // TODO: Replace 'YOUR_ACCESS_KEY_HERE' with your actual Web3Forms access key
+        // Get your free key at https://web3forms.com/
+        const formObject = {
+            access_key: 'ca6e7c9f-07d3-4a3e-8266-19a7df949d71',
+            name: name,
+            email: email,
+            subject: subject,
+            message: message,
+            from_name: name
+        };
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            });
+
+            const json = await response.json();
+
+            if (response.status == 200) {
+                // Success
+                btn.querySelector('.btn-text').textContent = 'Message Sent!';
+                form.reset();
+            } else {
+                // Error from Web3Forms
+                console.log(response);
+                btn.querySelector('.btn-text').textContent = 'Error Sending';
+                btn.style.background = 'linear-gradient(135deg, #ff3333, #cc0000)';
+            }
+        } catch (error) {
+            console.log(error);
+            btn.querySelector('.btn-text').textContent = 'Something went wrong!';
+            btn.style.background = 'linear-gradient(135deg, #ff3333, #cc0000)';
+        }
+
+        // Reset button after delay
         setTimeout(() => {
             btn.querySelector('.btn-text').textContent = originalText;
             btn.style.background = '';
-        }, 3000);
+        }, 4000);
     });
 }
 
