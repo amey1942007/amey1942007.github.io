@@ -20,6 +20,12 @@ function initPortfolio() {
     initParticleTrail();
     initDinoGame();
     animateHeroItems();
+    initLiveStats();
+    initInteractiveTerminal();
+    initThemeSwitcher();
+    initEasterEggs();
+    initKeyboardShortcuts();
+    initSoundToggle();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -156,6 +162,7 @@ function initBootSequence() {
         // Boot complete — fade out overlay
         await new Promise(r => setTimeout(r, 500));
         clearInterval(matrixInterval);
+        playBootSound();
         bootScreen.classList.add('off');
 
         // Show main content
@@ -439,6 +446,22 @@ function initThreeJS() {
     dodeca.position.set(5, -5, -9);
     scene.add(dodeca);
 
+    // 3D Robot mascot (simple geometric robot)
+    const robotGroup = new THREE.Group();
+    robotGroup.position.set(4, -2, -6);
+    const robotMat = new THREE.MeshBasicMaterial({ color: 0x00ff41, wireframe: true, transparent: true, opacity: 0.25 });
+    const bodyGeo = new THREE.BoxGeometry(0.6, 0.5, 0.3);
+    const body = new THREE.Mesh(bodyGeo, robotMat);
+    robotGroup.add(body);
+    const headGeo = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+    const head = new THREE.Mesh(headGeo, robotMat);
+    head.position.y = 0.5;
+    robotGroup.add(head);
+    const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.3), robotMat);
+    antenna.position.y = 0.9;
+    robotGroup.add(antenna);
+    scene.add(robotGroup);
+
     // Particle system
     const particleCount = 200;
     const particleGeo = new THREE.BufferGeometry();
@@ -492,6 +515,9 @@ function initThreeJS() {
 
         dodeca.rotation.x = time * 0.15;
         dodeca.rotation.y = time * 0.2;
+
+        robotGroup.rotation.y = time * 0.4;
+        robotGroup.position.y = -2 + Math.sin(time * 0.6) * 0.4;
 
         // Float animation
         torus.position.y = 2 + Math.sin(time * 0.5) * 0.8;
@@ -1120,9 +1146,214 @@ function initDinoGame() {
     });
 }
 
-/* ════════════════════════════════════════════════════════════
-   DINO PHONE APPS UI LOGIC
-   ════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   LIVE STATS – GitHub & LeetCode
+   ═══════════════════════════════════════════════════════════ */
+function initLiveStats() {
+    const ghRepos = document.getElementById('gh-repos-count');
+    const ghFollowers = document.getElementById('gh-followers-count');
+    const leetCodeSolved = document.getElementById('leetcode-solved');
+
+    if (ghRepos || ghFollowers) {
+        fetch('https://api.github.com/users/amey1942007')
+            .then(r => r.json())
+            .then(data => {
+                if (ghRepos && data.public_repos != null) ghRepos.textContent = data.public_repos;
+                if (ghFollowers && data.followers != null) ghFollowers.textContent = data.followers;
+            })
+            .catch(() => {
+                if (ghRepos) ghRepos.textContent = '—';
+                if (ghFollowers) ghFollowers.textContent = '—';
+            });
+    }
+
+    if (leetCodeSolved) {
+        fetch('https://alfa-leetcode-api.onrender.com/Amey19/solved')
+            .then(r => r.json())
+            .then(data => {
+                const solved = data?.solvedTotal ?? data;
+                if (typeof solved === 'number') leetCodeSolved.textContent = solved;
+            })
+            .catch(() => { });
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INTERACTIVE TERMINAL
+   ═══════════════════════════════════════════════════════════ */
+function initInteractiveTerminal() {
+    const terminal = document.getElementById('interactive-terminal');
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalOutput = document.getElementById('terminal-output');
+    const terminalToggle = document.getElementById('terminal-toggle');
+    const terminalClose = document.getElementById('terminal-close');
+
+    const welcome = 'Type "help" for available commands.\n';
+    terminalOutput.textContent = welcome;
+
+    const commands = {
+        help: () => 'Available commands:\n  help     - Show this help\n  ls       - List sections\n  cat about.txt - About me\n  cd projects - Scroll to projects\n  contact  - Scroll to contact\n  clear    - Clear terminal',
+        ls: () => 'hero  about  skills  projects  competitive  experience  contact',
+        'cat about.txt': () => 'Passionate ML Engineer & Robotics enthusiast at IIT Delhi. Building intelligent systems — from neural networks to autonomous SLAM robots.',
+        'cd projects': () => { scrollToSection('projects'); return 'Navigated to projects.'; },
+        contact: () => { scrollToSection('contact'); return 'Navigated to contact.'; },
+        clear: () => { terminalOutput.innerHTML = ''; return null; },
+    };
+
+    function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function runCommand(cmd) {
+        const trimmed = cmd.trim().toLowerCase();
+        if (!trimmed) return null;
+        for (const [key, fn] of Object.entries(commands)) {
+            if (trimmed === key || trimmed.startsWith(key + ' ')) {
+                const result = fn();
+                return result;
+            }
+        }
+        return `Command not found: ${trimmed}. Type "help" for commands.`;
+    }
+
+    function appendLine(text, isCmd = false) {
+        const div = document.createElement('div');
+        div.textContent = (isCmd ? '$ ' : '') + text;
+        if (isCmd) div.style.color = 'var(--green-primary)';
+        terminalOutput.appendChild(div);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+
+    if (terminalToggle) {
+        terminalToggle.addEventListener('click', () => {
+            terminal.classList.toggle('open');
+            if (terminal.classList.contains('open')) terminalInput.focus();
+        });
+    }
+    if (terminalClose) {
+        terminalClose.addEventListener('click', () => terminal.classList.remove('open'));
+    }
+
+    if (terminalInput) {
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            const cmd = terminalInput.value;
+            terminalInput.value = '';
+            appendLine(cmd, true);
+            const result = runCommand(cmd);
+            if (result) appendLine(result);
+        });
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME SWITCHER
+   ═══════════════════════════════════════════════════════════ */
+function initThemeSwitcher() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const themes = ['matrix', 'cyberpunk', 'hacker'];
+    let idx = parseInt(localStorage.getItem('portfolio-theme') || '0', 10);
+    applyTheme(themes[idx]);
+
+    btn.addEventListener('click', () => {
+        idx = (idx + 1) % themes.length;
+        localStorage.setItem('portfolio-theme', String(idx));
+        applyTheme(themes[idx]);
+    });
+}
+
+function applyTheme(name) {
+    document.body.classList.remove('theme-cyberpunk', 'theme-hacker');
+    if (name === 'cyberpunk') document.body.classList.add('theme-cyberpunk');
+    if (name === 'hacker') document.body.classList.add('theme-hacker');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EASTER EGGS – Konami Code & Boss Mode
+   ═══════════════════════════════════════════════════════════ */
+function initEasterEggs() {
+    const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+    let konamiIdx = 0;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === konami[konamiIdx]) {
+            konamiIdx++;
+            if (konamiIdx === konami.length) {
+                konamiIdx = 0;
+                document.body.classList.add('konami-glitch');
+                setTimeout(() => document.body.classList.remove('konami-glitch'), 2500);
+            }
+        } else konamiIdx = 0;
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.code === 'KeyB') {
+            e.preventDefault();
+            document.body.classList.toggle('theme-cyberpunk');
+        }
+    });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+   ═══════════════════════════════════════════════════════════ */
+function initKeyboardShortcuts() {
+    const modal = document.getElementById('shortcuts-modal');
+    const scroll = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
+    const terminal = document.getElementById('interactive-terminal');
+    const termToggle = document.getElementById('terminal-toggle');
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.matches('input, textarea')) return;
+        if (e.key === 'Escape') {
+            modal?.classList.remove('visible');
+            terminal?.classList.remove('open');
+            return;
+        }
+        if (e.key === '?') { e.preventDefault(); modal?.classList.toggle('visible'); return; }
+        const key = e.key.toUpperCase();
+        if (key === 'H') scroll('hero');
+        if (key === 'P') scroll('projects');
+        if (key === 'C') scroll('contact');
+        if (key === 'T' && termToggle) { termToggle.click(); }
+    });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SOUND TOGGLE & BOOT SOUND
+   ═══════════════════════════════════════════════════════════ */
+function initSoundToggle() {
+    const btn = document.getElementById('sound-toggle');
+    const muted = localStorage.getItem('portfolio-sound') === 'muted';
+    if (btn) {
+        if (muted) { btn.classList.add('muted'); btn.innerHTML = '<i class="fas fa-volume-mute"></i>'; }
+        btn.addEventListener('click', () => {
+            const m = btn.classList.toggle('muted');
+            btn.innerHTML = m ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+            localStorage.setItem('portfolio-sound', m ? 'muted' : 'on');
+        });
+    }
+    window._portfolioSoundMuted = muted;
+}
+
+function playBootSound() {
+    if (window._portfolioSoundMuted || localStorage.getItem('portfolio-sound') === 'muted') return;
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 880;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.15);
+    } catch (_) { }
+}
 document.addEventListener('DOMContentLoaded', () => {
     const phoneTime = document.getElementById('phone-time');
     const appsContainer = document.querySelector('.phone-apps-container');

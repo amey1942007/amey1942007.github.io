@@ -612,6 +612,38 @@ body {
     text-shadow: 0 0 15px var(--green-glow);
 }
 
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 16px;
+}
+
+.nav-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--border-green);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+}
+
+.nav-icon-btn:hover {
+    color: var(--green-primary);
+    border-color: var(--green-primary);
+    box-shadow: 0 0 12px var(--green-shadow);
+}
+
+.nav-icon-btn.muted {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
 .nav-links {
     display: flex;
     list-style: none;
@@ -1380,6 +1412,22 @@ body {
     transition: var(--transition-mid);
 }
 
+.project-overlay-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.project-link-btn.demo-btn {
+    background: transparent;
+    border-color: var(--green-mid);
+}
+
+.project-link-btn.demo-btn:hover {
+    background: rgba(0, 255, 65, 0.15);
+}
+
 .project-card:hover .project-overlay {
     opacity: 1;
 }
@@ -1637,7 +1685,14 @@ body {
     color: var(--green-primary);
     font-size: 0.85rem;
     font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.cp-stats {
+    font-size: 0.8rem;
+    color: var(--green-primary);
     margin-bottom: 6px;
+    opacity: 0.9;
 }
 
 .cp-desc {
@@ -2002,6 +2057,184 @@ body {
 .footer-tagline {
     font-size: 0.75rem;
     color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INTERACTIVE TERMINAL WIDGET
+   ═══════════════════════════════════════════════════════════ */
+.terminal-widget {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: min(600px, 95vw);
+    max-height: 320px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-green);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    z-index: 2000;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.terminal-widget.open {
+    transform: translateX(-50%) translateY(0);
+}
+
+.terminal-widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(0, 20, 0, 0.5);
+    border-bottom: 1px solid var(--border-green);
+}
+
+.terminal-widget-title {
+    font-size: 0.8rem;
+    color: var(--green-primary);
+}
+
+.terminal-widget-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    transition: var(--transition-fast);
+}
+
+.terminal-widget-close:hover {
+    color: var(--green-primary);
+}
+
+.terminal-widget-body {
+    padding: 12px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+#terminal-output {
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-input-line .terminal-prompt {
+    color: var(--green-primary);
+    font-weight: 700;
+}
+
+#terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--green-primary);
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    outline: none;
+}
+
+#terminal-input::placeholder {
+    color: rgba(0, 255, 65, 0.3);
+}
+
+/* Shortcuts Modal */
+.shortcuts-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.shortcuts-modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.shortcuts-modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-green);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 360px;
+}
+
+.shortcuts-modal-content h3 {
+    font-family: var(--font-display);
+    color: var(--green-primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.shortcut-item kbd {
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid var(--border-green);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--font-code);
+    min-width: 36px;
+    text-align: center;
+}
+
+/* Theme Overrides */
+body.theme-cyberpunk {
+    --green-primary: #ff00ff;
+    --green-bright: #ff66ff;
+    --green-mid: #cc00cc;
+    --green-dark: #990099;
+    --green-glow: rgba(255, 0, 255, 0.4);
+}
+
+body.theme-hacker {
+    --green-primary: #ffb000;
+    --green-bright: #ffcc00;
+    --green-mid: #cc8c00;
+    --green-dark: #996600;
+    --green-glow: rgba(255, 176, 0, 0.4);
+}
+
+body.konami-glitch {
+    animation: konamiGlitch 0.15s steps(1) 8;
+}
+
+@keyframes konamiGlitch {
+    0%, 100% { filter: none; }
+    25% { filter: hue-rotate(90deg); }
+    50% { filter: hue-rotate(-90deg); }
+    75% { filter: hue-rotate(180deg); }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2429,6 +2662,17 @@ body {
     /* ── NAV ── */
     #navbar {
         padding: 12px 20px;
+    }
+
+    .nav-controls {
+        margin-right: 8px;
+        gap: 4px;
+    }
+
+    .nav-icon-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
     }
 
     .nav-toggle {

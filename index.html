@@ -74,6 +74,11 @@
             <div class="nav-toggle" id="nav-toggle">
                 <span></span><span></span><span></span>
             </div>
+            <div class="nav-controls">
+                <button id="theme-toggle" class="nav-icon-btn" aria-label="Toggle theme" title="Theme"><i class="fas fa-palette"></i></button>
+                <button id="sound-toggle" class="nav-icon-btn" aria-label="Toggle sound" title="Sound"><i class="fas fa-volume-up"></i></button>
+                <button id="terminal-toggle" class="nav-icon-btn" aria-label="Toggle terminal" title="Terminal"><i class="fas fa-terminal"></i></button>
+            </div>
             <ul class="nav-links" id="nav-links">
                 <li><a href="#hero" class="nav-link active" data-section="hero">Home</a></li>
                 <li><a href="#about" class="nav-link" data-section="about">About</a></li>
@@ -355,8 +360,8 @@
                                                 <i class="fab fa-github"></i>
                                             </div>
                                             <div class="gh-stats">
-                                                <div class="gh-stat"><strong>15</strong><span>Repos</span></div>
-                                                <div class="gh-stat"><strong>120</strong><span>Commits</span></div>
+                                                <div class="gh-stat"><strong id="gh-repos-count">—</strong><span>Repos</span></div>
+                                                <div class="gh-stat"><strong id="gh-followers-count">—</strong><span>Followers</span></div>
                                             </div>
                                         </div>
                                         <h4 class="gh-pinned-title"><i class="fas fa-thumbtack"></i> Pinned</h4>
@@ -501,6 +506,9 @@
                                         rel="noopener" class="project-link-btn">
                                         <i class="fab fa-github"></i> View on GitHub
                                     </a>
+                                    <a href="https://huggingface.co/spaces" target="_blank" rel="noopener" class="project-link-btn demo-btn" title="Add your HF Space URL">
+                                        <i class="fas fa-play"></i> Try Demo
+                                    </a>
                                 </div>
                             </div>
                             <div class="project-status">
@@ -551,6 +559,9 @@
                                     <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank"
                                         rel="noopener" class="project-link-btn">
                                         <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                    <a href="https://github.com/amey1942007/Ros_lidar_bot#readme" target="_blank" rel="noopener" class="project-link-btn demo-btn">
+                                        <i class="fas fa-video"></i> Video Demo
                                     </a>
                                 </div>
                             </div>
@@ -686,6 +697,7 @@
                         <div class="cp-info">
                             <h3>LeetCode</h3>
                             <p class="cp-handle">@Amey19</p>
+                            <p class="cp-stats" id="leetcode-stats"><span id="leetcode-solved">—</span> problems solved</p>
                             <p class="cp-desc">Solving algorithmic problems and sharpening DSA skills</p>
                         </div>
                         <div class="cp-arrow"><i class="fas fa-external-link-alt"></i></div>
@@ -897,13 +909,42 @@
             </div>
         </footer>
 
+        <!-- Interactive Terminal -->
+        <div id="interactive-terminal" class="terminal-widget">
+            <div class="terminal-widget-header">
+                <span class="terminal-widget-title">portfolio@amey ~</span>
+                <button id="terminal-close" class="terminal-widget-close" aria-label="Close terminal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="terminal-widget-body">
+                <div id="terminal-output"></div>
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">$</span>
+                    <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="Type 'help' for commands">
+                </div>
+            </div>
+        </div>
+
+        <!-- Keyboard Shortcuts Modal -->
+        <div id="shortcuts-modal" class="shortcuts-modal">
+            <div class="shortcuts-modal-content">
+                <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+                <div class="shortcuts-list">
+                    <div class="shortcut-item"><kbd>H</kbd> Home</div>
+                    <div class="shortcut-item"><kbd>P</kbd> Projects</div>
+                    <div class="shortcut-item"><kbd>C</kbd> Contact</div>
+                    <div class="shortcut-item"><kbd>T</kbd> Terminal</div>
+                    <div class="shortcut-item"><kbd>?</kbd> Show shortcuts</div>
+                    <div class="shortcut-item"><kbd>Esc</kbd> Close</div>
+                </div>
+            </div>
+        </div>
     </div><!-- end #main-content -->
 
 
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>
