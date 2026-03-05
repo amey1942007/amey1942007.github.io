@@ -218,97 +218,247 @@
     transition: opacity 0.8s ease;
 }
 
-/* Hero Anim Items – base hidden state */
-.hero-anim-item {
+
+/* ═══════════════════════════════════════════════════════════
+   HERO ELEMENT ANIMATIONS – In / Out
+   All hero elements start invisible. JS adds enter/exit classes.
+   Durations: 0.75s – 0.95s  |  Easing: spring / ease-out
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Shared base: all hero animated elements start hidden ── */
+.hero-greeting,
+.hero-tagline,
+.hero-badges,
+.hero-cta,
+.hero-right,
+.hero-social-strip,
+.scroll-indicator {
     opacity: 0;
-    transition: none;
 }
 
-/* Generic anim-in: just makes it visible, each variant does the real animation */
-.hero-anim-item.anim-in {
-    opacity: 1;
+/* hero-name opacity is controlled via its child spans only */
+
+/* ─────────────────────────────────────────────────────────
+   ENTER: Greeting  →  slides 65px from the left + fades in
+   ──────────────────────────────────────────────────────── */
+.hero-enter-left {
+    animation: heroEnterLeft 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* ── FROM LEFT: greeting slides + fades from left ─────── */
-.anim-from-left {
-    opacity: 0;
-    transform: translateX(-60px);
-    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+@keyframes heroEnterLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-65px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.anim-from-left.anim-in {
-    opacity: 1;
-    transform: translateX(0);
+.hero-exit-left {
+    animation: heroExitLeft 0.6s cubic-bezier(0.55, 0, 0.7, 0.3) forwards;
 }
 
-/* ── FROM RIGHT: right panel slides from right ────────── */
-.anim-from-right {
-    opacity: 0;
-    transform: translateX(60px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+@keyframes heroExitLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-55px);
+    }
 }
 
-.anim-from-right.anim-in {
-    opacity: 1;
-    transform: translateX(0);
+/* ─────────────────────────────────────────────────────────
+   ENTER: Right panel  →  slides 70px from the right + fades
+   ──────────────────────────────────────────────────────── */
+.hero-enter-right {
+    animation: heroEnterRight 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* ── SCALE IN: tagline pops from small with blur ─────── */
-.anim-scale-in {
-    opacity: 0;
-    transform: scale(0.82);
-    filter: blur(8px);
-    transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.65s ease;
+@keyframes heroEnterRight {
+    from {
+        opacity: 0;
+        transform: translateX(70px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.anim-scale-in.anim-in {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
+.hero-exit-right {
+    animation: heroExitRight 0.6s cubic-bezier(0.55, 0, 0.7, 0.3) forwards;
 }
 
-/* ── BLUR IN: CTA buttons fade + deblur ─────────────── */
-.anim-blur-in {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(20px);
-    transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s ease;
+@keyframes heroExitRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(60px);
+    }
 }
 
-.anim-blur-in.anim-in {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
+/* ─────────────────────────────────────────────────────────
+   ENTER: Tagline  →  rises 45px from below + fades in
+   ──────────────────────────────────────────────────────── */
+.hero-enter-up {
+    animation: heroEnterUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* ── BADGE POP: individual badges flip in ────────────── */
-/* Badge animation state merged into main .badge rule below */
+@keyframes heroEnterUp {
+    from {
+        opacity: 0;
+        transform: translateY(45px);
+    }
 
-/* ── NAME AMEY: drops from top ───────────────────────── */
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-exit-down {
+    animation: heroExitDown 0.55s cubic-bezier(0.55, 0, 0.7, 0.3) forwards;
+}
+
+@keyframes heroExitDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   ENTER: Badges / CTA  →  gentle rise + fade (softer spring)
+   ──────────────────────────────────────────────────────── */
+.hero-enter-up-soft {
+    animation: heroEnterUpSoft 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+}
+
+@keyframes heroEnterUpSoft {
+    from {
+        opacity: 0;
+        transform: translateY(36px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   ENTER: Scroll indicator  →  simple fade up from 20px
+   ──────────────────────────────────────────────────────── */
+.hero-enter-fade {
+    animation: heroEnterFade 0.9s ease forwards;
+}
+
+@keyframes heroEnterFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-exit-fade {
+    animation: heroExitFade 0.45s ease forwards;
+}
+
+@keyframes heroExitFade {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   ENTER: Hero Name container  →  fades in (children animate)
+   ──────────────────────────────────────────────────────── */
+.hero-enter-name {
+    animation: heroEnterName 0.1s ease forwards;
+}
+
+@keyframes heroEnterName {
+    to {
+        opacity: 1;
+    }
+}
+
+.hero-exit-name {
+    animation: heroExitName 0.55s ease forwards;
+}
+
+@keyframes heroExitName {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   NAME SPANS – AMEY drops from top, CHAUDHARI rises from bottom
+   ──────────────────────────────────────────────────────── */
+/* AMEY: starts 150px above, slides down smoothly */
 .name-amey {
     display: inline-block;
     opacity: 0;
-    transform: translateY(-80px) skewY(-6deg);
-    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(-150px) skewX(-6deg);
+    transition: opacity 1.35s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.name-amey.anim-drop-down {
+.name-amey.name-amey-in {
     opacity: 1;
-    transform: translateY(0) skewY(0deg);
+    transform: translateY(0) skewX(0deg);
 }
 
-/* ── NAME CHAUDHARI: rises from bottom ───────────────── */
+/* CHAUDHARI: starts 150px below, rises up smoothly */
 .name-chaudhari {
     display: inline-block;
     opacity: 0;
-    transform: translateY(80px) skewY(6deg);
-    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+    transform: translateY(150px) skewX(6deg);
+    transition: opacity 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+        transform 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
 }
 
-.name-chaudhari.anim-rise-up {
+.name-chaudhari.name-chaud-in {
     opacity: 1;
-    transform: translateY(0) skewY(0deg);
+    transform: translateY(0) skewX(0deg);
 }
+
+/* ─────────────────────────────────────────────────────────
+   BADGE: individual flip-in  (staggered via JS)
+   ──────────────────────────────────────────────────────── */
+/* Badge animation state merged into main .badge rule below */
+
 
 /* ── CSS Custom Properties ─────────────────────────────── */
 :root {
@@ -693,6 +843,7 @@ body {
     color: var(--text-primary);
     margin-bottom: 20px;
     opacity: 0;
+    /* hidden until JS sets up spans */
     position: relative;
     word-break: break-word;
     overflow: visible;
@@ -773,7 +924,7 @@ body {
     transform-origin: top center;
 }
 
-.badge.anim-badge-pop {
+.badge.badge-in {
     opacity: 1;
     transform: rotateX(0) translateY(0);
 }
@@ -2204,17 +2355,24 @@ body {
 }
 
 .phone-home-btn {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border: 2px solid rgba(0, 255, 65, 0.2);
     border-radius: 50%;
-    margin: 10px auto 0;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
     transition: var(--transition-fast);
+    cursor: pointer;
+    z-index: 1000;
 }
 
-.phone-frame:hover .phone-home-btn {
+.phone-home-btn:hover,
+.phone-home-btn:active {
     border-color: var(--green-primary);
     box-shadow: 0 0 10px var(--green-shadow);
+    transform: translateX(-50%) scale(0.95);
 }
 
 .phone-shadow {
@@ -2552,5 +2710,823 @@ body {
     .cta-btn {
         padding: 12px 22px;
         font-size: 0.82rem;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════
+   FLOATING PHONE UI & APP STYLES
+   ════════════════════════════════════════════════════════════ */
+
+/* TRIGGER BUTTON */
+#phone-trigger-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(10, 25, 47, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--green-primary);
+    color: var(--green-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3), inset 0 0 10px rgba(0, 255, 65, 0.1);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#phone-trigger-btn:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.6), inset 0 0 15px rgba(0, 255, 65, 0.3);
+    background: rgba(0, 255, 65, 0.1);
+}
+
+/* PHONE MODAL BACKDROP */
+#phone-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#phone-modal.phone-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.phone-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 12, 27, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+/* PHONE DEVICE HARDWARE */
+.phone-device {
+    position: relative;
+    width: 350px;
+    height: 720px;
+    background: #000;
+    border-radius: 45px;
+    box-shadow: 0 0 0 4px #222, 0 0 0 6px #111, 0 0 0 8px #333, 0 30px 60px rgba(0, 0, 0, 0.8);
+    transform: translateY(0) scale(1);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+#phone-modal.phone-hidden .phone-device {
+    transform: translateY(100px) scale(0.9);
+}
+
+/* HARDWARE DETAILS (Notch, Buttons) */
+.phone-notch {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 25px;
+    background: #000;
+    border-radius: 0 0 15px 15px;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.phone-camera {
+    width: 10px;
+    height: 10px;
+    background: #111;
+    border-radius: 50%;
+    box-shadow: inset 0 0 2px #444;
+}
+
+.phone-speaker {
+    width: 40px;
+    height: 4px;
+    background: #222;
+    border-radius: 2px;
+}
+
+.phone-buttons .phone-btn-vol-up,
+.phone-buttons .phone-btn-vol-down,
+.phone-buttons .phone-btn-power {
+    position: absolute;
+    background: #444;
+    width: 4px;
+    border-radius: 2px 0 0 2px;
+}
+
+.phone-btn-vol-up {
+    top: 120px;
+    left: -8px;
+    height: 35px;
+}
+
+.phone-btn-vol-down {
+    top: 170px;
+    left: -8px;
+    height: 35px;
+}
+
+.phone-btn-power {
+    top: 140px;
+    right: -8px;
+    height: 50px;
+    border-radius: 0 2px 2px 0;
+}
+
+/* SCREEN AREA */
+.phone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #112240;
+    /* default fallback bg */
+    border-radius: 40px;
+    overflow: hidden;
+    border: 4px solid #000;
+    mask-image: radial-gradient(white, black);
+    /* fix corner bleeding */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* STATUS BAR */
+.phone-status-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    padding: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-size: 0.8rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    z-index: 100;
+    pointer-events: none;
+    font-weight: 600;
+}
+
+/* Make status bar black on light apps */
+.phone-app-chrome.active~.phone-status-bar,
+.phone-app-linkedin.active~.phone-status-bar {
+    color: #000;
+}
+
+.phone-status-icons {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+/* APP VIEWS CONTAINER */
+.phone-apps-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.phone-app-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+    transform: translateX(100%);
+    /* Apps are off-screen right by default */
+    opacity: 0;
+    pointer-events: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: #333;
+}
+
+/* When the app view is the active one */
+.phone-app-view.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 1. HOME SCREEN */
+#phone-app-home {
+    transform: translateX(0);
+    /* Home is center by default */
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* When an app pushes the home screen back */
+#phone-app-home.active-hidden {
+    transform: scale(0.9);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.phone-wallpaper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    background-image:
+        radial-gradient(rgba(0, 255, 65, 0.15) 1px, transparent 1px),
+        radial-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    z-index: -1;
+}
+
+.app-grid {
+    padding: 70px 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px 10px;
+}
+
+.app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.app-icon:active {
+    transform: scale(0.9);
+}
+
+.app-icon span {
+    font-size: 0.65rem;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    font-family: -apple-system, BlinkMacSystemFont, inherit;
+}
+
+.icon-bg {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chrome-bg {
+    background: #0a0a0a;
+    color: var(--green-primary);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.linkedin-bg {
+    background: #0a0a0a;
+    color: var(--green-primary);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.github-bg {
+    background: #0a0a0a;
+    color: var(--green-primary);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.dino-bg {
+    background: #0a0a0a;
+    color: var(--green-primary);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+/* 2. CHROME MOCK */
+#phone-app-chrome {
+    background: #050505;
+}
+
+.chrome-header {
+    background: #0a0a0a;
+    padding: 30px 15px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.chrome-search-bar {
+    flex-grow: 1;
+    background: #000;
+    border: 1px solid rgba(0, 255, 65, 0.4);
+    border-radius: 20px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--green-primary);
+}
+
+.chrome-search-bar span {
+    flex-grow: 1;
+}
+
+.chrome-search-bar i.fa-lock {
+    font-size: 0.75rem;
+}
+
+.chrome-tabs-btn {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(0, 255, 65, 0.4);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--green-primary);
+}
+
+.chrome-content {
+    padding: 20px 15px;
+    font-family: var(--font-mono);
+}
+
+.chrome-bookmark {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #0a0a0a;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: var(--green-primary);
+    border: 1px solid rgba(0, 255, 65, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.chrome-bookmark:hover {
+    border-color: var(--green-primary);
+}
+
+.bookmark-icon {
+    width: 40px;
+    height: 40px;
+    background: #000;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--green-primary);
+    font-size: 1.2rem;
+    border: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.bookmark-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.bookmark-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+}
+
+.bookmark-url {
+    font-size: 0.75rem;
+    color: rgba(0, 255, 65, 0.6);
+}
+
+/* 3. LINKEDIN MOCK */
+#phone-app-linkedin {
+    background: #000;
+    color: var(--green-primary);
+    font-family: var(--font-mono);
+}
+
+.li-header {
+    background: #0a0a0a;
+    padding: 30px 15px 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.li-search {
+    flex-grow: 1;
+    background: #000;
+    border: 1px solid rgba(0, 255, 65, 0.4);
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--green-primary);
+}
+
+.li-header>i {
+    font-size: 1.2rem;
+    color: var(--green-primary);
+}
+
+.li-content {
+    padding-bottom: 60px;
+    /* space for btm nav */
+}
+
+.li-banner {
+    height: 80px;
+    background: rgba(0, 255, 65, 0.1);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.li-profile-section {
+    background: #0a0a0a;
+    padding: 0 20px 20px;
+    margin-bottom: 8px;
+    position: relative;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.li-avatar {
+    width: 80px;
+    height: 80px;
+    background: #000;
+    color: var(--green-primary);
+    border: 2px solid var(--green-primary);
+    border-radius: 50%;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+.li-profile-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+    color: var(--green-primary);
+}
+
+.li-profile-section p {
+    font-size: 0.85rem;
+    color: rgba(0, 255, 65, 0.8);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.li-connect-btn {
+    display: inline-block;
+    background: transparent;
+    color: var(--green-primary);
+    border: 1px solid var(--green-primary);
+    text-decoration: none;
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.li-connect-btn:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+.li-post {
+    background: #0a0a0a;
+    padding: 15px 20px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    border-top: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.li-post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.li-post-avatar {
+    width: 40px;
+    height: 40px;
+    background: #000;
+    border: 1px solid var(--green-primary);
+    color: var(--green-primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.li-post-header div {
+    display: flex;
+    flex-direction: column;
+}
+
+.li-post-header strong {
+    font-size: 0.9rem;
+    color: var(--green-primary);
+}
+
+.li-post-header span {
+    font-size: 0.75rem;
+    color: rgba(0, 255, 65, 0.6);
+}
+
+.li-post p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: rgba(0, 255, 65, 0.9);
+}
+
+.li-bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #0a0a0a;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 10px;
+    border-top: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.li-bottom-nav i {
+    font-size: 1.3rem;
+    color: rgba(0, 255, 65, 0.5);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.li-bottom-nav i.active {
+    color: var(--green-primary);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+/* 4. GITHUB MOCK */
+#phone-app-github {
+    background: #000;
+    color: var(--green-primary);
+    font-family: var(--font-mono);
+}
+
+.gh-header {
+    padding: 30px 20px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    background: #0a0a0a;
+}
+
+.gh-header h3 {
+    font-size: 1.1rem;
+    color: var(--green-primary);
+    margin: 0;
+}
+
+.gh-header i {
+    color: var(--green-primary);
+}
+
+.gh-content {
+    padding: 20px;
+    padding-bottom: 70px;
+}
+
+.gh-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.gh-avatar {
+    width: 70px;
+    height: 70px;
+    background: #0a0a0a;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: var(--green-primary);
+    border: 1px solid rgba(0, 255, 65, 0.4);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+.gh-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.gh-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gh-stat strong {
+    font-size: 1.1rem;
+    color: var(--green-primary);
+    border: none;
+}
+
+.gh-stat span {
+    font-size: 0.8rem;
+    color: rgba(0, 255, 65, 0.7);
+}
+
+.gh-pinned-title {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: var(--green-primary);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    padding-bottom: 5px;
+}
+
+.gh-pinned-title i {
+    color: var(--green-primary);
+    margin-right: 5px;
+}
+
+.gh-repo-card {
+    display: block;
+    background: #0a0a0a;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+}
+
+.gh-repo-card:hover,
+.gh-repo-card:active {
+    background: rgba(0, 255, 65, 0.05);
+    border-color: var(--green-primary);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+.repo-title {
+    color: var(--green-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.gh-repo-card p {
+    font-size: 0.85rem;
+    color: rgba(0, 255, 65, 0.8);
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.repo-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: rgba(0, 255, 65, 0.6);
+}
+
+.lang-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.lang-dot.python {
+    background: var(--green-primary);
+    box-shadow: 0 0 5px var(--green-glow);
+}
+
+.gh-view-profile-btn {
+    display: block;
+    text-align: center;
+    background: #0a0a0a;
+    border: 1px solid rgba(0, 255, 65, 0.4);
+    padding: 10px;
+    border-radius: 6px;
+    color: var(--green-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: all 0.3s;
+}
+
+.gh-view-profile-btn:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.gh-bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #0a0a0a;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0 10px;
+    border-top: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.gh-bottom-nav i {
+    font-size: 1.3rem;
+    color: rgba(0, 255, 65, 0.5);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.gh-bottom-nav i.active {
+    color: var(--green-primary);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+
+/* HOME INDICATOR */
+#phone-home-indicator {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 5px;
+    background: #fff;
+    border-radius: 2.5px;
+    z-index: 500;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s;
+}
+
+/* Make indicator dark on light apps */
+.phone-app-chrome.active~#phone-home-indicator,
+.phone-app-linkedin.active~#phone-home-indicator {
+    background: #000;
+}
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS for PHONE UI
+   ════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 400px) {
+    .phone-device {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+
+    .phone-notch,
+    .phone-buttons {
+        display: none;
+    }
+
+    .phone-screen {
+        border: none;
+        border-radius: 0;
     }
 }

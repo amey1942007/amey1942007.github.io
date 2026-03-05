@@ -233,70 +233,103 @@ function initBootSequence() {
 }
 
 function animateHeroItems() {
-    // Greeting: fade + slide from left (typewriter feel)
+    const heroSection = document.getElementById('hero');
     const greeting = document.querySelector('.hero-greeting');
-    // Hero name: split AMEY and CHAUDHARI spans already set in HTML via JS split
     const heroNameEl = document.querySelector('.hero-name');
     const tagline = document.querySelector('.hero-tagline');
     const badges = document.querySelector('.hero-badges');
     const cta = document.querySelector('.hero-cta');
     const right = document.querySelector('.hero-right');
     const social = document.querySelector('.hero-social-strip');
-    const scroll = document.querySelector('.scroll-indicator');
+    const scrollInd = document.querySelector('.scroll-indicator');
 
-    // Assign specific animation classes
-    if (greeting) {
-        setTimeout(() => greeting.classList.add('anim-in', 'anim-from-left'), 100);
-    }
-
-    // Split hero name: wrap AMEY and CHAUDHARI in separate spans for separate animations
+    // ── Build the name spans (AMEY / CHAUDHARI) ───────────────────────
     if (heroNameEl) {
-        // Replace text content with two animated spans
-        heroNameEl.innerHTML = `<span class="name-amey">AMEY</span> <span class="name-chaudhari">CHAUDHARI</span>`;
-        // Set data-text for glitch pseudo-elements
+        heroNameEl.innerHTML = `<span class="name-amey">AMEY</span>&nbsp;<span class="name-chaudhari">CHAUDHARI</span>`;
         heroNameEl.setAttribute('data-text', 'AMEY CHAUDHARI');
-        setTimeout(() => {
-            heroNameEl.querySelector('.name-amey').classList.add('anim-drop-down');
-        }, 300);
-        setTimeout(() => {
-            heroNameEl.querySelector('.name-chaudhari').classList.add('anim-rise-up');
-        }, 450);
-        setTimeout(() => {
-            heroNameEl.classList.add('anim-in');
-        }, 300);
+        // Container was hidden (opacity:0 in CSS) to prevent raw text flash.
+        // Now that spans are set up, reveal the container — spans control their own visibility.
+        heroNameEl.style.opacity = '1';
     }
 
-    if (tagline) {
-        setTimeout(() => tagline.classList.add('anim-in', 'anim-scale-in'), 700);
+    // ── Element animation map ──────────────────────────────────────────
+    // { el, inDelay(ms), inClass, outClass, outDelay(ms) }
+    // Note: heroNameEl not in items – its child spans handle their own animation
+    const items = [
+        { el: greeting, inDelay: 80, inClass: 'hero-enter-left', outClass: 'hero-exit-left', outDelay: 500 },
+        { el: tagline, inDelay: 600, inClass: 'hero-enter-up', outClass: 'hero-exit-down', outDelay: 400 },
+        { el: badges, inDelay: 800, inClass: 'hero-enter-up-soft', outClass: 'hero-exit-down', outDelay: 350 },
+        { el: cta, inDelay: 1050, inClass: 'hero-enter-up-soft', outClass: 'hero-exit-down', outDelay: 280 },
+        { el: right, inDelay: 420, inClass: 'hero-enter-right', outClass: 'hero-exit-right', outDelay: 420 },
+        { el: social, inDelay: 820, inClass: 'hero-enter-right', outClass: 'hero-exit-right', outDelay: 320 },
+        { el: scrollInd, inDelay: 1400, inClass: 'hero-enter-fade', outClass: 'hero-exit-fade', outDelay: 200 },
+    ].filter(x => x.el); // skip nulls
+
+    // ── IN trigger ────────────────────────────────────────────────────
+    function triggerIn() {
+        items.forEach(({ el, inDelay, inClass, outClass }) => {
+            el.classList.remove(outClass, 'hero-settled');
+            void el.offsetWidth; // reflow reset
+            setTimeout(() => {
+                el.classList.add(inClass);
+                setTimeout(() => el.classList.add('hero-settled'), 1100);
+            }, inDelay);
+        });
+
+        // Badge stagger
+        if (badges) {
+            setTimeout(() => {
+                badges.querySelectorAll('.badge').forEach((b, i) => {
+                    b.classList.remove('badge-in');
+                    void b.offsetWidth;
+                    setTimeout(() => b.classList.add('badge-in'), i * 110);
+                });
+            }, 850);
+        }
+
+        // AMEY drops from top, CHAUDHARI rises from bottom (CSS transition)
+        if (heroNameEl) {
+            const amey = heroNameEl.querySelector('.name-amey');
+            const chaud = heroNameEl.querySelector('.name-chaudhari');
+            if (amey) { amey.classList.remove('name-amey-in'); void amey.offsetWidth; setTimeout(() => amey.classList.add('name-amey-in'), 700); }
+            if (chaud) { chaud.classList.remove('name-chaud-in'); void chaud.offsetWidth; setTimeout(() => chaud.classList.add('name-chaud-in'), 880); }
+        }
     }
 
-    if (badges) {
-        // Badges: stagger each badge with a flip-in
-        badges.classList.add('anim-in');
-        setTimeout(() => {
-            const badgeItems = badges.querySelectorAll('.badge');
-            badgeItems.forEach((b, i) => {
-                setTimeout(() => b.classList.add('anim-badge-pop'), i * 120);
-            });
-        }, 900);
+    // ── OUT trigger (when hero scrolls away) ──────────────────────────
+    function triggerOut() {
+        items.forEach(({ el, inClass, outClass, outDelay }) => {
+            el.classList.remove(inClass, 'hero-settled');
+            void el.offsetWidth;
+            setTimeout(() => el.classList.add(outClass), outDelay);
+        });
+
+        if (badges) badges.querySelectorAll('.badge').forEach(b => b.classList.remove('badge-in'));
+
+        if (heroNameEl) {
+            heroNameEl.querySelector('.name-amey')?.classList.remove('name-amey-in');
+            heroNameEl.querySelector('.name-chaudhari')?.classList.remove('name-chaud-in');
+        }
     }
 
-    if (cta) {
-        setTimeout(() => cta.classList.add('anim-in', 'anim-blur-in'), 1200);
-    }
+    // ── Scroll observer: out on leave, in on return ────────────────────
+    let heroVisible = true;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!heroVisible) { heroVisible = true; triggerIn(); }
+            } else {
+                if (heroVisible) { heroVisible = false; triggerOut(); }
+            }
+        });
+    }, { threshold: 0.08 });
 
-    if (right) {
-        setTimeout(() => right.classList.add('anim-in', 'anim-from-right'), 600);
-    }
+    if (heroSection) observer.observe(heroSection);
 
-    if (social) {
-        setTimeout(() => social.classList.add('anim-in', 'anim-from-right'), 900);
-    }
-
-    if (scroll) {
-        setTimeout(() => scroll.classList.add('anim-in'), 1600);
-    }
+    // Fire IN on boot
+    triggerIn();
 }
+
 
 /* ═══════════════════════════════════════════════════════════
    MATRIX RAIN – Canvas Animation
@@ -1086,3 +1119,75 @@ function initDinoGame() {
         if (!gameRunning) reset();
     });
 }
+
+/* ════════════════════════════════════════════════════════════
+   DINO PHONE APPS UI LOGIC
+   ════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    const phoneTime = document.getElementById('phone-time');
+    const appsContainer = document.querySelector('.phone-apps-container');
+    const dinoGameOverlay = document.getElementById('dino-overlay');
+
+    // Update phone time
+    setInterval(() => {
+        if (!phoneTime) return;
+        const now = new Date();
+        phoneTime.innerText = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+    }, 1000);
+
+    // App Navigation Logic
+    const appIcons = document.querySelectorAll('.app-icon');
+    const appViews = document.querySelectorAll('.phone-app-view');
+    const homeIndicator = document.getElementById('phone-home-indicator');
+    const hwHomeBtn = document.getElementById('dino-phone-home-btn');
+    const homeView = document.getElementById('phone-app-home');
+
+    function goHome() {
+        // Show apps container in case we were in the dino game
+        if (appsContainer) appsContainer.classList.remove('hidden');
+
+        // Hide all app views and show home
+        appViews.forEach(view => view.classList.remove('active'));
+        if (homeView) {
+            homeView.classList.add('active');
+            homeView.classList.remove('active-hidden');
+        }
+    }
+
+    // Click icon -> Open App
+    appIcons.forEach(icon => {
+        icon.addEventListener('click', () => {
+            const targetId = icon.getAttribute('data-target');
+
+            // Special case: launching Dino Game hides the HTML apps layer entirely
+            if (targetId === 'dino-game') {
+                if (appsContainer) appsContainer.classList.add('hidden');
+                // The game handles starting on click, but if the overlay is hidden, game is running
+                if (dinoGameOverlay && !dinoGameOverlay.classList.contains('hidden')) {
+                    // trigger a click on the canvas to start it
+                    document.getElementById('dino-canvas').click();
+                }
+                return;
+            }
+
+            const targetApp = document.getElementById(targetId);
+            if (targetApp) {
+                // hide home view behind
+                if (homeView) homeView.classList.add('active-hidden');
+                // show selected app
+                targetApp.classList.add('active');
+            }
+        });
+    });
+
+    // Hardware button & indicator return to home
+    if (hwHomeBtn) hwHomeBtn.addEventListener('click', goHome);
+    if (homeIndicator) homeIndicator.addEventListener('click', goHome);
+
+    // Bottom Navs inside apps (visual only, returns to home on 'home' icon click)
+    const bottomNavHomes = document.querySelectorAll('.li-bottom-nav .fa-home, .gh-bottom-nav .fa-home');
+    bottomNavHomes.forEach(btn => {
+        btn.addEventListener('click', goHome);
+    });
+
+}); // End of Phone App UI LogicalDOMContentLoaded

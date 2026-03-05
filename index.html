@@ -217,7 +217,7 @@
             </div>
         </section>
 
-        <!-- ════════════════════ 3D PHONE DINO GAME ════════════════════ -->
+        <!-- ════════════════════ 3D PHONE DINO GAME & APPS ════════════════════ -->
         <section id="dino-phone" class="section">
             <div class="container">
                 <h2 class="section-title reveal-up">
@@ -225,17 +225,180 @@
                     Take a Break
                     <span class="title-decorator">/&gt;</span>
                 </h2>
-                <p class="dino-subtitle reveal-up">Play the classic Dino game while you're here!</p>
+                <p class="dino-subtitle reveal-up">Play the classic Dino game or browse my socials!</p>
                 <div class="phone-3d-wrapper reveal-up">
                     <div class="phone-frame tilt-card" id="phone-frame">
                         <div class="phone-notch"></div>
-                        <div class="phone-screen">
-                            <canvas id="dino-canvas"></canvas>
-                            <div class="dino-overlay" id="dino-overlay">
-                                <p class="dino-start-text">▶ CLICK / SPACE TO START</p>
+                        <div class="phone-screen" id="main-phone-screen">
+
+                            <!-- APP VIEWS CONTAINER -->
+                            <div class="phone-apps-container" id="phone-apps-container">
+                                <!-- 1. HOME SCREEN -->
+                                <div id="phone-app-home" class="phone-app-view active">
+                                    <div class="phone-wallpaper"></div>
+                                    <div class="app-grid">
+                                        <div class="app-icon chrome-app" data-target="phone-app-chrome">
+                                            <div class="icon-bg chrome-bg"><i class="fab fa-chrome"></i></div>
+                                            <span>Chrome</span>
+                                        </div>
+                                        <div class="app-icon linkedin-app" data-target="phone-app-linkedin">
+                                            <div class="icon-bg linkedin-bg"><i class="fab fa-linkedin-in"></i></div>
+                                            <span>LinkedIn</span>
+                                        </div>
+                                        <div class="app-icon github-app" data-target="phone-app-github">
+                                            <div class="icon-bg github-bg"><i class="fab fa-github"></i></div>
+                                            <span>GitHub</span>
+                                        </div>
+                                        <div class="app-icon dino-app" data-target="phone-app-dino">
+                                            <div class="icon-bg dino-bg"><i class="fas fa-dragon"></i></div>
+                                            <span>Dino Game</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2. CHROME BROWSER -->
+                                <div id="phone-app-chrome" class="phone-app-view">
+                                    <div class="chrome-header">
+                                        <div class="chrome-search-bar">
+                                            <i class="fas fa-lock"></i>
+                                            <span>amey.tech/socials</span>
+                                            <i class="fas fa-redo"></i>
+                                        </div>
+                                        <div class="chrome-tabs-btn">4</div>
+                                    </div>
+                                    <div class="chrome-content">
+                                        <a href="https://github.com/amey1942007" target="_blank"
+                                            class="chrome-bookmark">
+                                            <div class="bookmark-icon"><i class="fab fa-github"></i></div>
+                                            <div class="bookmark-info">
+                                                <span class="bookmark-title">GitHub</span>
+                                                <span class="bookmark-url">github.com/amey1942007</span>
+                                            </div>
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389" target="_blank"
+                                            class="chrome-bookmark">
+                                            <div class="bookmark-icon"><i class="fab fa-linkedin-in"></i></div>
+                                            <div class="bookmark-info">
+                                                <span class="bookmark-title">LinkedIn</span>
+                                                <span class="bookmark-url">linkedin.com/in/amey-chaudhari...</span>
+                                            </div>
+                                        </a>
+                                        <a href="https://leetcode.com/u/Amey19/" target="_blank"
+                                            class="chrome-bookmark">
+                                            <div class="bookmark-icon" style="background:#f89f1b; color:#222"><i
+                                                    class="fas fa-code"></i></div>
+                                            <div class="bookmark-info">
+                                                <span class="bookmark-title">LeetCode</span>
+                                                <span class="bookmark-url">leetcode.com/u/Amey19/</span>
+                                            </div>
+                                        </a>
+                                        <a href="https://www.instagram.com/itz_amey19/" target="_blank"
+                                            class="chrome-bookmark">
+                                            <div class="bookmark-icon"
+                                                style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)">
+                                                <i class="fab fa-instagram"></i>
+                                            </div>
+                                            <div class="bookmark-info">
+                                                <span class="bookmark-title">Instagram</span>
+                                                <span class="bookmark-url">instagram.com/itz_amey19/</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- 3. LINKEDIN APP MOCK -->
+                                <div id="phone-app-linkedin" class="phone-app-view">
+                                    <div class="li-header">
+                                        <div class="li-search"><i class="fas fa-search"></i> Search...</div>
+                                        <i class="fas fa-comment-dots"></i>
+                                    </div>
+                                    <div class="li-content">
+                                        <div class="li-banner"></div>
+                                        <div class="li-profile-section">
+                                            <div class="li-avatar">AC</div>
+                                            <h2>Amey Chaudhari</h2>
+                                            <p>ML Engineer & Robotics Enthusiast | IIT Delhi</p>
+                                            <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389"
+                                                target="_blank" class="li-connect-btn">Connect</a>
+                                        </div>
+                                        <div class="li-post">
+                                            <div class="li-post-header">
+                                                <div class="li-post-avatar">AC</div>
+                                                <div>
+                                                    <strong>Amey Chaudhari</strong>
+                                                    <span>Just now • 🌐</span>
+                                                </div>
+                                            </div>
+                                            <p>Just deployed my new 3D portfolio! Check out the interactive terminal
+                                                boot sequence and my latest SLAM robotics projects. 🚀 #MachineLearning
+                                                #Robotics #IITDelhi</p>
+                                        </div>
+                                    </div>
+                                    <div class="li-bottom-nav">
+                                        <i class="fas fa-home active"></i>
+                                        <i class="fas fa-user-friends"></i>
+                                        <i class="fas fa-plus-square"></i>
+                                        <i class="fas fa-bell"></i>
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                </div>
+
+                                <!-- 4. GITHUB APP MOCK -->
+                                <div id="phone-app-github" class="phone-app-view">
+                                    <div class="gh-header">
+                                        <h3>amey1942007</h3>
+                                        <i class="fas fa-cog"></i>
+                                    </div>
+                                    <div class="gh-content">
+                                        <div class="gh-profile-header">
+                                            <div class="gh-avatar">
+                                                <i class="fab fa-github"></i>
+                                            </div>
+                                            <div class="gh-stats">
+                                                <div class="gh-stat"><strong>15</strong><span>Repos</span></div>
+                                                <div class="gh-stat"><strong>120</strong><span>Commits</span></div>
+                                            </div>
+                                        </div>
+                                        <h4 class="gh-pinned-title"><i class="fas fa-thumbtack"></i> Pinned</h4>
+                                        <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank"
+                                            class="gh-repo-card">
+                                            <div class="repo-title"><i class="fas fa-book"></i> Ros_lidar_bot</div>
+                                            <p>Differential-drive robot on ROS2 mapping environment using SLAM toolbox
+                                            </p>
+                                            <div class="repo-meta"><span class="repo-lang"><span
+                                                        class="lang-dot python"></span>Python</span> <span
+                                                    class="repo-star"><i class="far fa-star"></i> 2</span></div>
+                                        </a>
+                                        <a href="https://github.com/amey1942007/Fashion_MNIST-Pytorch-Model"
+                                            target="_blank" class="gh-repo-card">
+                                            <div class="repo-title"><i class="fas fa-book"></i> Fashion_MNIST-Pytorch
+                                            </div>
+                                            <p>Fashion-MNIST classifier using a feed-forward neural net in PyTorch</p>
+                                            <div class="repo-meta"><span class="repo-lang"><span
+                                                        class="lang-dot python"></span>Python</span></div>
+                                        </a>
+                                        <a href="https://github.com/amey1942007" target="_blank"
+                                            class="gh-view-profile-btn">View Full Profile</a>
+                                    </div>
+                                    <div class="gh-bottom-nav">
+                                        <i class="fas fa-home active"></i>
+                                        <i class="fas fa-bell"></i>
+                                        <i class="fas fa-search"></i>
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+
+                                <!-- 5. DINO GAME (Moved from root level) -->
+                                <div id="phone-app-dino" class="phone-app-view">
+                                    <canvas id="dino-canvas"></canvas>
+                                    <div class="dino-overlay" id="dino-overlay">
+                                        <p class="dino-start-text">▶ CLICK / SPACE TO START</p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="phone-home-btn"></div>
+                        <div class="phone-home-btn" id="dino-phone-home-btn" aria-label="Home Screen"></div>
                     </div>
                     <div class="phone-shadow"></div>
                 </div>
@@ -433,6 +596,66 @@
                                     <li><i class="fas fa-camera"></i> Depth Camera + OpenCV</li>
                                     <li><i class="fas fa-microchip"></i> Raspberry Pi Hardware Port</li>
                                     <li><i class="fas fa-users"></i> Multi-Robot Fleet Operations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: RoboGambit -->
+                    <div class="project-card tilt-card reveal-up">
+                        <div class="project-image-wrapper">
+                            <div class="project-image"
+                                style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); display: flex; align-items: center; justify-content: center; height: 100%;">
+                                <i class="fas fa-chess-knight"
+                                    style="font-size: 5rem; color: var(--green-primary); opacity: 0.8; filter: drop-shadow(0 0 10px var(--green-glow));"></i>
+                            </div>
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="#" class="project-link-btn" style="pointer-events: none; opacity: 0.6;">
+                                        <i class="fas fa-lock"></i> Code Private
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot in-progress"></span> In Development
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">RoboGambit – Autonomous Chess Robot</h3>
+                            <p class="project-description">An autonomous 6x6 chess engine serving as the brain for a
+                                physical chess robot. Features a highly optimized <span class="highlight">Minimax
+                                    algorithm with Alpha-Beta pruning</span>, Piece-Square Tables (PSTs) evaluation, and
+                                robust legal move generation.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Algorithm</span>
+                                    <span class="detail-value">Minimax + Alpha-Beta Pruning</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Evaluation</span>
+                                    <span class="detail-value">Material + Positional PSTs</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Board</span>
+                                    <span class="detail-value">6x6 (NumPy Array based)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Language</span>
+                                    <span class="detail-value">Python</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">AI</span>
+                                <span class="tag">Minimax</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">NumPy</span>
+                                <span class="tag">Robotics</span>
+                            </div>
+                            <div class="project-roadmap">
+                                <h4><i class="fas fa-road"></i> Upcoming</h4>
+                                <ul>
+                                    <li><i class="fas fa-microchip"></i> Hardware Integration</li>
+                                    <li><i class="fas fa-robot"></i> Robotic Arm Control</li>
                                 </ul>
                             </div>
                         </div>
@@ -675,6 +898,8 @@
         </footer>
 
     </div><!-- end #main-content -->
+
+
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
