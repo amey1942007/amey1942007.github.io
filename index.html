@@ -901,6 +901,30 @@
 
 
 
+    <!-- Interactive Terminal (Hidden by default) -->
+    <div id="interactive-terminal" class="terminal-hidden">
+        <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">guest@amey-os:~</span>
+            <button id="close-terminal-btn" aria-label="Close Terminal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="terminal-body" id="interactive-terminal-body">
+            <div class="terminal-output" id="interactive-terminal-output">
+                <div>Welcome to AmeyOS v4.2.</div>
+                <div>Type 'help' to see available commands.</div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">guest@amey-os:~$</span>
+                <input type="text" id="interactive-terminal-input" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Hacker Cursor -->
+    <div id="custom-cursor"></div>
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js?v=2"></script>

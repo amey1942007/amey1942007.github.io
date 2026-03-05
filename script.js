@@ -20,6 +20,12 @@ function initPortfolio() {
     initParticleTrail();
     initDinoGame();
     animateHeroItems();
+
+    // New Features
+    initCustomCursor();
+    initSoundDesign();
+    initLiveAPI();
+    initInteractiveTerminal();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1191,3 +1197,345 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 }); // End of Phone App UI LogicalDOMContentLoaded
+
+
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM HACKER CURSOR
+   ═══════════════════════════════════════════════════════════ */
+function initCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    if (!cursor) return;
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    const hoverElements = document.querySelectorAll('a, button, .nav-logo, .chrome-bookmark, .repo-title');
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hovering');
+        });
+    });
+
+    const textElements = document.querySelectorAll('p, h1, h2, h3, h4, span, input, textarea');
+    textElements.forEach(el => {
+        // Skip elements that are inside hover elements or are hover elements
+        if (el.closest('a') || el.closest('button')) return;
+
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('text-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('text-hover');
+        });
+    });
+
+    document.addEventListener('mousedown', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    });
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SOUND DESIGN (Web Audio API)
+   ═══════════════════════════════════════════════════════════ */
+function initSoundDesign() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playTone(freq, duration, type = 'sine', vol = 0.30) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gainNode.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + duration);
+    }
+
+    const hoverElements = document.querySelectorAll('a, button, .nav-link, .app-icon, .chrome-bookmark, .repo-title');
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            playTone(400, 0.1, 'sine', 0.12); // Louder blip
+        });
+        el.addEventListener('click', () => {
+            playTone(800, 0.15, 'square', 0.2); // Louder click
+        });
+    });
+
+    const terminalInput = document.getElementById('interactive-terminal-input');
+    if (terminalInput) {
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') {
+                playTone(1200 + Math.random() * 200, 0.05, 'square', 0.06); // Louder typing sound
+            } else {
+                playTone(300, 0.2, 'sawtooth', 0.25); // Louder enter sound
+            }
+        });
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   LIVE API INTEGRATION
+   ═══════════════════════════════════════════════════════════ */
+async function initLiveAPI() {
+    // GitHub API
+    try {
+        const ghResponse = await fetch('https://api.github.com/users/amey1942007');
+        if (ghResponse.ok) {
+            const ghData = await ghResponse.json();
+            const ghStats = document.querySelector('.gh-stats');
+            if (ghStats && ghData.public_repos !== undefined) {
+                ghStats.innerHTML = `
+                    <div class="gh-stat"><strong>${ghData.public_repos}</strong><span>Repos</span></div>
+                    <div class="gh-stat"><strong>${ghData.followers}</strong><span>Followers</span></div>
+                `;
+            }
+        }
+    } catch (e) { console.log('GitHub API fetch failed:', e); }
+
+    // LeetCode API (via proxy)
+    try {
+        const lcResponse = await fetch('https://leetcode-stats-api.herokuapp.com/Amey19');
+        if (lcResponse.ok) {
+            const lcData = await lcResponse.json();
+            const lcDesc = document.querySelector('#leetcode-card .cp-desc');
+            if (lcDesc && lcData.status === 'success') {
+                lcDesc.innerHTML = `Problems Solved: <strong>${lcData.totalSolved}</strong><br>Easy: ${lcData.easySolved} | Med: ${lcData.mediumSolved} | Hard: ${lcData.hardSolved}`;
+            }
+        }
+    } catch (e) { console.log('LeetCode API fetch failed:', e); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   LIDAR/SLAM BACKGROUND EFFECT
+   ═══════════════════════════════════════════════════════════ */
+function initLidarBackground() {
+    const canvas = document.getElementById('lidar-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let mouse = { x: width / 2, y: height / 2 };
+    let points = [];
+    let angle = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        // Move towards target smoothly or abruptly? For SLAM, abruptly is fine
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+
+    function drawLidar() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Emulate scanner ray
+        angle += 0.05;
+        const rayLength = Math.max(width, height);
+
+        ctx.save();
+
+        // Setup clip region to avoid drawing on terminal or other UI areas if needed
+        // For now, let it be behind everything (handled by z-index)
+
+        // Draw scanning cone
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        ctx.lineTo(mouse.x + Math.cos(angle - 0.2) * rayLength, mouse.y + Math.sin(angle - 0.2) * rayLength);
+        ctx.lineTo(mouse.x + Math.cos(angle + 0.2) * rayLength, mouse.y + Math.sin(angle + 0.2) * rayLength);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 255, 65, 0.03)';
+        ctx.fill();
+
+        // Draw scanner center dot
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#39ff14';
+        ctx.fill();
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#39ff14';
+
+        // Add points at the boundary of rectangles/page
+        if (Math.random() > 0.3) {
+            const hitDist = 50 + Math.random() * 300;
+            points.push({
+                x: mouse.x + Math.cos(angle) * hitDist,
+                y: mouse.y + Math.sin(angle) * hitDist,
+                life: 1.0
+            });
+        }
+
+        // Draw and age points
+        ctx.shadowBlur = 0;
+        for (let i = points.length - 1; i >= 0; i--) {
+            let p = points[i];
+            ctx.fillStyle = `rgba(0, 255, 65, ${p.life * 0.5})`;
+            ctx.fillRect(p.x, p.y, 2, 2);
+            p.life -= 0.005;
+            if (p.life <= 0) {
+                points.splice(i, 1);
+            }
+        }
+
+        ctx.restore();
+
+        requestAnimationFrame(drawLidar);
+    }
+
+    drawLidar();
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   INTERACTIVE TERMINAL (AmeyOS)
+   ═══════════════════════════════════════════════════════════ */
+function initInteractiveTerminal() {
+    const terminal = document.getElementById('interactive-terminal');
+    const input = document.getElementById('interactive-terminal-input');
+    const output = document.getElementById('interactive-terminal-output');
+    const closeBtn = document.getElementById('close-terminal-btn');
+
+    if (!terminal || !input) return;
+
+    // Toggle terminal with backtick (`) or Ctrl+~
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '`' || e.code === 'Backquote' || (e.ctrlKey && e.key === '~')) {
+            // Because backtick might conflict with an open input elsewhere, just prevent default unless typing in terminal
+            if (document.activeElement === input && e.key === '`') return;
+
+            e.preventDefault();
+            terminal.classList.toggle('terminal-hidden');
+            if (!terminal.classList.contains('terminal-hidden')) {
+                input.focus();
+            } else {
+                input.blur();
+            }
+        }
+    });
+
+    closeBtn.addEventListener('click', () => {
+        terminal.classList.add('terminal-hidden');
+    });
+
+    // Make window draggable
+    let isDragging = false;
+    let offsetX, offsetY;
+    const header = terminal.querySelector('.terminal-header');
+
+    header.addEventListener('mousedown', (e) => {
+        if (e.target === closeBtn || closeBtn.contains(e.target)) return;
+        isDragging = true;
+
+        // Get current transform translate values
+        const style = window.getComputedStyle(terminal);
+        const matrix = new DOMMatrixReadOnly(style.transform);
+
+        offsetX = e.clientX - matrix.m41;
+        offsetY = e.clientY - matrix.m42;
+        terminal.style.transition = 'none'; // Disable transition for smooth drag
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        terminal.style.transform = `translateX(${e.clientX - offsetX}px) translateY(${e.clientY - offsetY}px)`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            terminal.style.transition = 'opacity 0.3s ease'; // Re-enable opacity transition
+        }
+    });
+
+    // Handle commands
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const cmd = input.value.trim();
+            input.value = '';
+            processCommand(cmd);
+        }
+    });
+
+    function printOut(text, isHtml = false) {
+        const div = document.createElement('div');
+        if (isHtml) div.innerHTML = text;
+        else div.textContent = text;
+        output.appendChild(div);
+
+        // Scroll to bottom
+        const body = document.getElementById('interactive-terminal-body');
+        body.scrollTop = body.scrollHeight;
+    }
+
+    function processCommand(cmd) {
+        if (!cmd) return;
+        printOut(`<span class="prompt">guest@amey-os:~$</span> ${cmd}`, true);
+        const args = cmd.split(' ');
+        const mainCmd = args[0].toLowerCase();
+
+        switch (mainCmd) {
+            case 'help':
+                printOut("Available commands:");
+                printOut("  help     - Show this help message");
+                printOut("  echo     - Print arguments to the terminal");
+                printOut("  clear    - Clear the terminal output");
+                printOut("  projects - List all projects");
+                printOut("  whoami   - Display current sub-system user");
+                printOut("  sudo rm -rf / - DESTRUCTIVE COMMAND (Proceed with caution)");
+                break;
+            case 'echo':
+                printOut(args.slice(1).join(' '));
+                break;
+            case 'clear':
+                output.innerHTML = '';
+                break;
+            case 'whoami':
+                printOut("guest");
+                break;
+            case 'projects':
+                printOut("1. Fashion MNIST – PyTorch Classifier");
+                printOut("2. ROS Lidar Bot – SLAM Autonomous Robot");
+                printOut("3. RoboGambit – Autonomous Chess Robot");
+                break;
+            case 'sudo':
+                if (args.join(' ') === 'sudo rm -rf /') {
+                    printOut("<span style='color:red'>CRITICAL WARNING: System core deletion initiated...</span>", true);
+                    document.body.classList.add('glitch-active');
+                    setTimeout(() => {
+                        document.body.classList.remove('glitch-active');
+                        printOut("Just kidding! AmeyOS is immutable.", true);
+                    }, 3000);
+                } else {
+                    printOut(`guest is not in the sudoers file. This incident will be reported.`);
+                }
+                break;
+            default:
+                printOut(`bash: ${mainCmd}: command not found`);
+        }
+    }
+}
