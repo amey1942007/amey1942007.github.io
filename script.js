@@ -35,6 +35,11 @@ function initBootSequence() {
     const bootHint = document.getElementById('boot-hint');
     const mainContent = document.getElementById('main-content');
 
+    // Hide power button and hint initially — will appear after boot
+    powerBtn.classList.add('fade-out');
+    powerBtn.classList.remove('offline');
+    if (bootHint) bootHint.classList.add('hidden');
+
     // Boot Matrix rain (brighter than the main one)
     function initBootMatrix() {
         const ctx = bootMatrix.getContext('2d');
@@ -70,21 +75,17 @@ function initBootSequence() {
     }
 
     const bootMessages = [
-        { text: '[SYSTEM] Initializing kernel modules...', delay: 200, type: 'system' },
-        { text: '[SYSTEM] Loading Matrix interface v3.0...', delay: 300, type: 'system' },
-        { text: '[NETWORK] Establishing secure connection...', delay: 250, type: 'network' },
-        { text: '[NETWORK] Connection restored ✓', delay: 200, type: 'success' },
-        { text: '[DEVICE] Mounting filesystems...', delay: 300, type: 'device' },
-        { text: '[DEVICE] GPU acceleration enabled ✓', delay: 200, type: 'success' },
-        { text: '[SECURITY] Firewall active ✓', delay: 150, type: 'success' },
-        { text: '[ML] Loading PyTorch runtime...', delay: 350, type: 'ml' },
-        { text: '[ML] Neural network weights loaded ✓', delay: 250, type: 'success' },
-        { text: '[ROS2] Initializing robot control nodes...', delay: 300, type: 'ros' },
-        { text: '[SLAM] LiDAR sensor online ✓', delay: 200, type: 'success' },
-        { text: '', delay: 100, type: 'blank' },
-        { text: '> SYSTEM READY', delay: 300, type: 'ready' },
-        { text: '> Loading profile: AMEY CHAUDHARI...', delay: 400, type: 'ready' },
-        { text: '> Welcome back.', delay: 500, type: 'welcome' },
+        { text: '[SYSTEM] Initializing kernel modules...', delay: 120, type: 'system' },
+        { text: '[SYSTEM] Loading Matrix interface v3.0...', delay: 150, type: 'system' },
+        { text: '[NETWORK] Establishing secure connection...', delay: 130, type: 'network' },
+        { text: '[NETWORK] Connection established ✓', delay: 120, type: 'success' },
+        { text: '[DEVICE] GPU acceleration enabled ✓', delay: 120, type: 'success' },
+        { text: '[ML] Loading PyTorch runtime...', delay: 150, type: 'ml' },
+        { text: '[SLAM] LiDAR sensor online ✓', delay: 120, type: 'success' },
+        { text: '', delay: 80, type: 'blank' },
+        { text: '> SYSTEM READY', delay: 200, type: 'ready' },
+        { text: '> Loading profile: AMEY CHAUDHARI...', delay: 300, type: 'ready' },
+        { text: '> Welcome.', delay: 400, type: 'welcome' },
     ];
 
     const shutdownMessages = [
@@ -118,7 +119,6 @@ function initBootSequence() {
                 line.style.color = 'rgba(0, 255, 65, 0.6)';
             }
 
-            // Type character by character
             let i = 0;
             line.textContent = '';
             bootLog.appendChild(line);
@@ -128,7 +128,7 @@ function initBootSequence() {
                 if (i < msg.text.length) {
                     line.textContent += msg.text[i];
                     i++;
-                    setTimeout(typeChar, 12 + Math.random() * 8);
+                    setTimeout(typeChar, 10 + Math.random() * 6);
                 } else {
                     setTimeout(resolve, msg.delay);
                 }
@@ -138,22 +138,14 @@ function initBootSequence() {
     }
 
     async function runBootSequence() {
-        // Fade out power button so it doesn't travel, then fade it back at the corner
-        powerBtn.classList.add('fade-out');
-        await new Promise(r => setTimeout(r, 400));
-
-        powerBtn.classList.remove('offline');
         powerBtn.classList.add('booting');
-        powerBtn.classList.remove('fade-out');
-
-        bootHint.classList.add('hidden');
-        bootLog.innerHTML = ''; // Clear prior logs
+        bootLog.innerHTML = '';
 
         // Start bright Matrix rain
         const matrixInterval = initBootMatrix();
 
-        // Show terminal
-        await new Promise(r => setTimeout(r, 600));
+        // Show terminal after a tiny pause
+        await new Promise(r => setTimeout(r, 300));
         bootTerminal.classList.add('active');
 
         // Type all messages
@@ -162,13 +154,15 @@ function initBootSequence() {
         }
 
         // Boot complete — fade out overlay
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 500));
         clearInterval(matrixInterval);
         bootScreen.classList.add('off');
 
         // Show main content
         mainContent.classList.add('content-visible');
         powerBtn.classList.remove('booting');
+        // Reveal power button at corner
+        powerBtn.classList.remove('fade-out');
         isBooted = true;
 
         // Initialize all portfolio systems
@@ -184,11 +178,9 @@ function initBootSequence() {
     async function turnOffSequence() {
         isBooted = false;
 
-        // Hide button, smoothly scroll to top
         powerBtn.classList.add('fade-out');
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Fade out main content and bring back the boot screen to show shutdown logs
         await new Promise(r => setTimeout(r, 500));
         mainContent.classList.remove('content-visible');
         bootScreen.style.display = 'flex';
@@ -197,50 +189,113 @@ function initBootSequence() {
             bootScreen.classList.remove('off');
         });
 
-        // Re-enable terminal
         bootTerminal.classList.add('active');
         bootLog.innerHTML = '';
         const matrixInterval = initBootMatrix();
 
-        // Play shutdown logs
         for (const msg of shutdownMessages) {
             await typeBootMessage(msg);
         }
 
-        // Finish shutdown: clear matrix, restore offline view
         clearInterval(matrixInterval);
         await new Promise(r => setTimeout(r, 500));
 
         bootTerminal.classList.remove('active');
-        bootHint.classList.remove('hidden');
         bootLog.innerHTML = '';
 
-        // Reappear power button as offline (centered)
+        // After shutdown, show big centered offline power button
         powerBtn.classList.add('offline');
         powerBtn.classList.remove('fade-out');
+        if (bootHint) bootHint.classList.remove('hidden');
     }
 
     let isBooted = false;
 
-    // Power button click
+    // Power button click — only works when offline (after shutdown)
     powerBtn.addEventListener('click', async () => {
         if (!powerBtn.classList.contains('booting') && !powerBtn.classList.contains('fade-out')) {
             if (!isBooted) {
+                // Remove offline centering before re-booting
+                powerBtn.classList.remove('offline');
+                if (bootHint) bootHint.classList.add('hidden');
+                bootScreen.style.display = 'flex';
+                bootScreen.classList.remove('off');
+                mainContent.classList.remove('content-visible');
                 runBootSequence();
             } else {
                 turnOffSequence();
             }
         }
     });
+
+    // AUTO-BOOT: start boot sequence immediately on page load
+    runBootSequence();
 }
 
 function animateHeroItems() {
-    const items = document.querySelectorAll('.hero-anim-item');
-    items.forEach((item, i) => {
+    // Greeting: fade + slide from left (typewriter feel)
+    const greeting = document.querySelector('.hero-greeting');
+    // Hero name: split AMEY and CHAUDHARI spans already set in HTML via JS split
+    const heroNameEl = document.querySelector('.hero-name');
+    const tagline = document.querySelector('.hero-tagline');
+    const badges = document.querySelector('.hero-badges');
+    const cta = document.querySelector('.hero-cta');
+    const right = document.querySelector('.hero-right');
+    const social = document.querySelector('.hero-social-strip');
+    const scroll = document.querySelector('.scroll-indicator');
+
+    // Assign specific animation classes
+    if (greeting) {
+        setTimeout(() => greeting.classList.add('anim-in', 'anim-from-left'), 100);
+    }
+
+    // Split hero name: wrap AMEY and CHAUDHARI in separate spans for separate animations
+    if (heroNameEl) {
+        // Replace text content with two animated spans
+        heroNameEl.innerHTML = `<span class="name-amey">AMEY</span> <span class="name-chaudhari">CHAUDHARI</span>`;
+        // Set data-text for glitch pseudo-elements
+        heroNameEl.setAttribute('data-text', 'AMEY CHAUDHARI');
         setTimeout(() => {
-            item.classList.add('anim-in');
-        }, 200 + i * 150);
-    });
+            heroNameEl.querySelector('.name-amey').classList.add('anim-drop-down');
+        }, 300);
+        setTimeout(() => {
+            heroNameEl.querySelector('.name-chaudhari').classList.add('anim-rise-up');
+        }, 450);
+        setTimeout(() => {
+            heroNameEl.classList.add('anim-in');
+        }, 300);
+    }
+
+    if (tagline) {
+        setTimeout(() => tagline.classList.add('anim-in', 'anim-scale-in'), 700);
+    }
+
+    if (badges) {
+        // Badges: stagger each badge with a flip-in
+        badges.classList.add('anim-in');
+        setTimeout(() => {
+            const badgeItems = badges.querySelectorAll('.badge');
+            badgeItems.forEach((b, i) => {
+                setTimeout(() => b.classList.add('anim-badge-pop'), i * 120);
+            });
+        }, 900);
+    }
+
+    if (cta) {
+        setTimeout(() => cta.classList.add('anim-in', 'anim-blur-in'), 1200);
+    }
+
+    if (right) {
+        setTimeout(() => right.classList.add('anim-in', 'anim-from-right'), 600);
+    }
+
+    if (social) {
+        setTimeout(() => social.classList.add('anim-in', 'anim-from-right'), 900);
+    }
+
+    if (scroll) {
+        setTimeout(() => scroll.classList.add('anim-in'), 1600);
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════
