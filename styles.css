@@ -1617,12 +1617,22 @@ body {
     color: #3399ff;
 }
 
+.github-icon {
+    background: linear-gradient(135deg, rgba(0, 255, 65, 0.15), rgba(0, 255, 65, 0.05));
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    color: var(--green-primary);
+}
+
 .cp-card:hover .leetcode-icon {
     box-shadow: 0 0 25px rgba(255, 161, 22, 0.3);
 }
 
 .cp-card:hover .codeforces-icon {
     box-shadow: 0 0 25px rgba(51, 153, 255, 0.3);
+}
+
+.cp-card:hover .github-icon {
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.3);
 }
 
 .cp-info h3 {
