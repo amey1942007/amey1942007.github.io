@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <meta name="keywords" content="Amey Chaudhari, IIT Delhi, Machine Learning, Robotics, SLAM, ROS2, Portfolio">
     <meta name="author" content="Amey Chaudhari">
     <meta property="og:title" content="Amey Chaudhari | ML Engineer & Robotics Enthusiast">
-    <meta property="og:description" content="3D Portfolio – AI, Robotics, Competitive Programming">
+    <meta property="og:description" content="Portfolio – AI, Robotics, Competitive Programming">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,36 +24,6 @@
 </head>
 
 <body>
-    <!-- ════════════════════ POWER BUTTON ════════════════════ -->
-    <button id="power-btn" class="offline" aria-label="Power">
-        <div class="power-btn-glitch-wrapper">
-            <svg class="glitch-layer base-layer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-                <line x1="12" y1="2" x2="12" y2="12" />
-            </svg>
-            <svg class="glitch-layer glitch-layer-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-                <line x1="12" y1="2" x2="12" y2="12" />
-            </svg>
-            <svg class="glitch-layer glitch-layer-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-                <line x1="12" y1="2" x2="12" y2="12" />
-            </svg>
-        </div>
-    </button>
-
-    <!-- ════════════════════ BOOT SCREEN OVERLAY ════════════════════ -->
-    <div id="boot-screen">
-        <canvas id="boot-matrix"></canvas>
-        <div id="boot-terminal">
-            <div id="boot-log"></div>
-            <span id="boot-cursor" class="boot-cursor">█</span>
-        </div>
-        <p id="boot-hint">SYSTEM OFFLINE &mdash; Press power to initialize</p>
-    </div>
 
     <!-- Matrix Rain Canvas -->
     <canvas id="matrix-rain"></canvas>
@@ -61,8 +31,8 @@
     <!-- Three.js 3D Background -->
     <div id="three-bg"></div>
 
-    <!-- Main Content Wrapper (hidden until boot) -->
-    <div id="main-content" class="content-hidden">
+    <!-- Main Content Wrapper (visible immediately) -->
+    <div id="main-content">
 
         <!-- Navigation -->
         <nav id="navbar">
@@ -84,6 +54,11 @@
                 <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
                 <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
             </ul>
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                <i class="fas fa-moon" id="theme-icon-dark"></i>
+                <i class="fas fa-sun" id="theme-icon-light"></i>
+            </button>
         </nav>
 
         <!-- ════════════════════ HERO SECTION ════════════════════ -->
@@ -111,7 +86,7 @@
                         </a>
                         <a href="#contact" class="cta-btn secondary">
                             <span>Contact Me</span>
-                            <i class="fas fa-terminal"></i>
+                            <i class="fas fa-envelope"></i>
                         </a>
                     </div>
                 </div>
@@ -174,23 +149,19 @@
                         </div>
                     </div>
                     <div class="about-info reveal-right">
-                        <div class="terminal-window">
-                            <div class="terminal-header">
-                                <span class="terminal-dot red"></span>
-                                <span class="terminal-dot yellow"></span>
-                                <span class="terminal-dot green"></span>
-                                <span class="terminal-title">about_amey.sh</span>
+                        <div class="about-info-card">
+                            <div class="about-info-header">
+                                <span class="about-info-dot"></span>
+                                <span class="about-info-dot"></span>
+                                <span class="about-info-dot"></span>
+                                <span class="about-info-title">about_amey</span>
                             </div>
-                            <div class="terminal-body">
-                                <p class="terminal-line"><span class="prompt">$</span> cat bio.txt</p>
-                                <p class="terminal-output">Passionate ML Engineer and Robotics enthusiast currently
-                                    pursuing
-                                    my undergraduate studies at <span class="highlight">IIT Delhi</span>. I build
+                            <div class="about-info-body">
+                                <p class="about-bio">Passionate ML Engineer and Robotics enthusiast currently
+                                    pursuing my undergraduate studies at <span class="highlight">IIT Delhi</span>. I build
                                     intelligent systems — from neural networks that classify fashion items to
-                                    autonomous
-                                    robots that map their environment using SLAM.</p>
+                                    autonomous robots that map their environment using SLAM.</p>
                                 <br>
-                                <p class="terminal-line"><span class="prompt">$</span> cat education.json</p>
                                 <div class="education-block">
                                     <div class="edu-item">
                                         <span class="edu-icon"><i class="fas fa-university"></i></span>
@@ -203,7 +174,6 @@
                                     </div>
                                 </div>
                                 <br>
-                                <p class="terminal-line"><span class="prompt">$</span> cat coursework.list</p>
                                 <div class="coursework-tags">
                                     <span class="course-tag">COL100 – Intro to Programming</span>
                                     <span class="course-tag">MTL100 – Calculus</span>
@@ -214,194 +184,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ════════════════════ 3D PHONE DINO GAME & APPS ════════════════════ -->
-        <section id="dino-phone" class="section">
-            <div class="container">
-                <h2 class="section-title reveal-up">
-                    <span class="title-decorator">&lt;</span>
-                    Take a Break
-                    <span class="title-decorator">/&gt;</span>
-                </h2>
-                <p class="dino-subtitle reveal-up">Play the classic Dino game or browse my socials!</p>
-                <div class="phone-3d-wrapper reveal-up">
-                    <div class="phone-frame tilt-card" id="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen" id="main-phone-screen">
-
-                            <!-- APP VIEWS CONTAINER -->
-                            <div class="phone-apps-container" id="phone-apps-container">
-                                <!-- 1. HOME SCREEN -->
-                                <div id="phone-app-home" class="phone-app-view active">
-                                    <div class="phone-wallpaper"></div>
-                                    <div class="app-grid">
-                                        <div class="app-icon chrome-app" data-target="phone-app-chrome">
-                                            <div class="icon-bg chrome-bg"><i class="fab fa-chrome"></i></div>
-                                            <span>Chrome</span>
-                                        </div>
-                                        <div class="app-icon linkedin-app" data-target="phone-app-linkedin">
-                                            <div class="icon-bg linkedin-bg"><i class="fab fa-linkedin-in"></i></div>
-                                            <span>LinkedIn</span>
-                                        </div>
-                                        <div class="app-icon github-app" data-target="phone-app-github">
-                                            <div class="icon-bg github-bg"><i class="fab fa-github"></i></div>
-                                            <span>GitHub</span>
-                                        </div>
-                                        <div class="app-icon dino-app" data-target="phone-app-dino">
-                                            <div class="icon-bg dino-bg"><i class="fas fa-dragon"></i></div>
-                                            <span>Dino Game</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 2. CHROME BROWSER -->
-                                <div id="phone-app-chrome" class="phone-app-view">
-                                    <div class="chrome-header">
-                                        <div class="chrome-search-bar">
-                                            <i class="fas fa-lock"></i>
-                                            <span>amey.tech/socials</span>
-                                            <i class="fas fa-redo"></i>
-                                        </div>
-                                        <div class="chrome-tabs-btn">4</div>
-                                    </div>
-                                    <div class="chrome-content">
-                                        <a href="https://github.com/amey1942007" target="_blank"
-                                            class="chrome-bookmark">
-                                            <div class="bookmark-icon"><i class="fab fa-github"></i></div>
-                                            <div class="bookmark-info">
-                                                <span class="bookmark-title">GitHub</span>
-                                                <span class="bookmark-url">github.com/amey1942007</span>
-                                            </div>
-                                        </a>
-                                        <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389" target="_blank"
-                                            class="chrome-bookmark">
-                                            <div class="bookmark-icon"><i class="fab fa-linkedin-in"></i></div>
-                                            <div class="bookmark-info">
-                                                <span class="bookmark-title">LinkedIn</span>
-                                                <span class="bookmark-url">linkedin.com/in/amey-chaudhari...</span>
-                                            </div>
-                                        </a>
-                                        <a href="https://leetcode.com/u/Amey19/" target="_blank"
-                                            class="chrome-bookmark">
-                                            <div class="bookmark-icon" style="background:#f89f1b; color:#222"><i
-                                                    class="fas fa-code"></i></div>
-                                            <div class="bookmark-info">
-                                                <span class="bookmark-title">LeetCode</span>
-                                                <span class="bookmark-url">leetcode.com/u/Amey19/</span>
-                                            </div>
-                                        </a>
-                                        <a href="https://www.instagram.com/itz_amey19/" target="_blank"
-                                            class="chrome-bookmark">
-                                            <div class="bookmark-icon"
-                                                style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)">
-                                                <i class="fab fa-instagram"></i>
-                                            </div>
-                                            <div class="bookmark-info">
-                                                <span class="bookmark-title">Instagram</span>
-                                                <span class="bookmark-url">instagram.com/itz_amey19/</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- 3. LINKEDIN APP MOCK -->
-                                <div id="phone-app-linkedin" class="phone-app-view">
-                                    <div class="li-header">
-                                        <div class="li-search"><i class="fas fa-search"></i> Search...</div>
-                                        <i class="fas fa-comment-dots"></i>
-                                    </div>
-                                    <div class="li-content">
-                                        <div class="li-banner"></div>
-                                        <div class="li-profile-section">
-                                            <div class="li-avatar">AC</div>
-                                            <h2>Amey Chaudhari</h2>
-                                            <p>ML Engineer & Robotics Enthusiast | IIT Delhi</p>
-                                            <a href="https://www.linkedin.com/in/amey-chaudhari-60a602389"
-                                                target="_blank" class="li-connect-btn">Connect</a>
-                                        </div>
-                                        <div class="li-post">
-                                            <div class="li-post-header">
-                                                <div class="li-post-avatar">AC</div>
-                                                <div>
-                                                    <strong>Amey Chaudhari</strong>
-                                                    <span>Just now • 🌐</span>
-                                                </div>
-                                            </div>
-                                            <p>Just deployed my new 3D portfolio! Check out the interactive terminal
-                                                boot sequence and my latest SLAM robotics projects. 🚀 #MachineLearning
-                                                #Robotics #IITDelhi</p>
-                                        </div>
-                                    </div>
-                                    <div class="li-bottom-nav">
-                                        <i class="fas fa-home active"></i>
-                                        <i class="fas fa-user-friends"></i>
-                                        <i class="fas fa-plus-square"></i>
-                                        <i class="fas fa-bell"></i>
-                                        <i class="fas fa-briefcase"></i>
-                                    </div>
-                                </div>
-
-                                <!-- 4. GITHUB APP MOCK -->
-                                <div id="phone-app-github" class="phone-app-view">
-                                    <div class="gh-header">
-                                        <h3>amey1942007</h3>
-                                        <i class="fas fa-cog"></i>
-                                    </div>
-                                    <div class="gh-content">
-                                        <div class="gh-profile-header">
-                                            <div class="gh-avatar">
-                                                <i class="fab fa-github"></i>
-                                            </div>
-                                            <div class="gh-stats">
-                                                <div class="gh-stat"><strong>15</strong><span>Repos</span></div>
-                                                <div class="gh-stat"><strong>120</strong><span>Commits</span></div>
-                                            </div>
-                                        </div>
-                                        <h4 class="gh-pinned-title"><i class="fas fa-thumbtack"></i> Pinned</h4>
-                                        <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank"
-                                            class="gh-repo-card">
-                                            <div class="repo-title"><i class="fas fa-book"></i> Ros_lidar_bot</div>
-                                            <p>Differential-drive robot on ROS2 mapping environment using SLAM toolbox
-                                            </p>
-                                            <div class="repo-meta"><span class="repo-lang"><span
-                                                        class="lang-dot python"></span>Python</span> <span
-                                                    class="repo-star"><i class="far fa-star"></i> 2</span></div>
-                                        </a>
-                                        <a href="https://github.com/amey1942007/Fashion_MNIST-Pytorch-Model"
-                                            target="_blank" class="gh-repo-card">
-                                            <div class="repo-title"><i class="fas fa-book"></i> Fashion_MNIST-Pytorch
-                                            </div>
-                                            <p>Fashion-MNIST classifier using a feed-forward neural net in PyTorch</p>
-                                            <div class="repo-meta"><span class="repo-lang"><span
-                                                        class="lang-dot python"></span>Python</span></div>
-                                        </a>
-                                        <a href="https://github.com/amey1942007" target="_blank"
-                                            class="gh-view-profile-btn">View Full Profile</a>
-                                    </div>
-                                    <div class="gh-bottom-nav">
-                                        <i class="fas fa-home active"></i>
-                                        <i class="fas fa-bell"></i>
-                                        <i class="fas fa-search"></i>
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                </div>
-
-                                <!-- 5. DINO GAME (Moved from root level) -->
-                                <div id="phone-app-dino" class="phone-app-view">
-                                    <canvas id="dino-canvas"></canvas>
-                                    <div class="dino-overlay" id="dino-overlay">
-                                        <p class="dino-start-text">▶ CLICK / SPACE TO START</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="phone-home-btn" id="dino-phone-home-btn" aria-label="Home Screen"></div>
-                    </div>
-                    <div class="phone-shadow"></div>
                 </div>
             </div>
         </section>
@@ -491,8 +273,282 @@
                     <span class="title-decorator">/&gt;</span>
                 </h2>
                 <div class="projects-grid">
-                    <!-- Project 1: Fashion MNIST -->
+
+                    <!-- Project 1: ROS Lidar Bot (UPDATED) -->
                     <div class="project-card tilt-card reveal-left">
+                        <div class="project-image-wrapper">
+                            <img src="assets/slam_robot_project.png" alt="ROS Lidar Bot – SLAM Robot"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank"
+                                        rel="noopener" class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot in-progress"></span> Active Development
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">ROS Lidar Bot – Autonomous SLAM Robot</h3>
+                            <p class="project-description">A comprehensive autonomous mobile robot on <span
+                                    class="highlight">ROS2 Humble</span> with Gazebo Ignition. Features real-time SLAM
+                                mapping, <span class="highlight">autonomous frontier exploration</span> with
+                                multi-factor scoring & blacklist recovery, EKF sensor fusion, semantic object
+                                positioning via camera+LiDAR, and a safety-stop velocity filter.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Platform</span>
+                                    <span class="detail-value">ROS2 Humble + Gazebo Ignition</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">SLAM</span>
+                                    <span class="detail-value">SLAM Toolbox (Async)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Navigation</span>
+                                    <span class="detail-value">Nav2 + Regulated Pure Pursuit</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Exploration</span>
+                                    <span class="detail-value">Custom Frontier Explorer + Safety Stop</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Localization</span>
+                                    <span class="detail-value">EKF (Wheel Odom + IMU Fusion)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Perception</span>
+                                    <span class="detail-value">LiDAR + Camera Semantic Positioning</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">ROS2</span>
+                                <span class="tag">SLAM</span>
+                                <span class="tag">Nav2</span>
+                                <span class="tag">Gazebo</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">EKF</span>
+                            </div>
+                            <div class="project-roadmap">
+                                <h4><i class="fas fa-road"></i> Roadmap</h4>
+                                <ul>
+                                    <li><i class="fas fa-microchip"></i> Raspberry Pi Hardware Port</li>
+                                    <li><i class="fas fa-users"></i> Multi-Robot Fleet Operations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: FIT_INDIA (NEW) -->
+                    <div class="project-card tilt-card reveal-right">
+                        <div class="project-image-wrapper">
+                            <img src="assets/fitindia_cover.png" alt="FIT_INDIA – AI Health Tracker"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/FIT_INDIA" target="_blank" rel="noopener"
+                                        class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                    <a href="https://fit-india-jade.vercel.app" target="_blank" rel="noopener"
+                                        class="project-link-btn live-btn">
+                                        <i class="fas fa-external-link-alt"></i> Live Demo
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot completed"></span> Deployed
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">FitIndia – AI-Powered Health Tracker</h3>
+                            <p class="project-description">A full-stack intelligent fitness companion built for India.
+                                Powered by <span class="highlight">Groq's Llama 3.3 70B</span> for personalised AI
+                                diet plans, AQI-aware workouts, regional Indian food database, and life-stage
+                                intelligence. Deployed on Railway + Vercel.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Backend</span>
+                                    <span class="detail-value">FastAPI + Python 3.11</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">AI Engine</span>
+                                    <span class="detail-value">Groq – Llama 3.3 70B</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Database</span>
+                                    <span class="detail-value">Supabase PostgreSQL</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Frontend</span>
+                                    <span class="detail-value">Vanilla JS + Glassmorphism UI</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">FastAPI</span>
+                                <span class="tag">Groq AI</span>
+                                <span class="tag">Supabase</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: SURGE (NEW) -->
+                    <div class="project-card tilt-card reveal-left">
+                        <div class="project-image-wrapper">
+                            <img src="assets/surge_cover.png" alt="SURGE – Lecturer-Following Camera"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/Robotic-Infrastructure-Classroom-system"
+                                        target="_blank" rel="noopener" class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot in-progress"></span> In Development
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">SURGE – Lecturer-Following Camera</h3>
+                            <p class="project-description">A ceiling-mounted <span class="highlight">Raspberry Pi
+                                    5</span> pod that autonomously tracks a lecturer using 4× MEMS microphones and
+                                SRP-PHAT beamforming. Silero VAD for speech detection, pan-tilt servo control, RTSP
+                                live streaming, and auto-upload to Google Drive.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Brain</span>
+                                    <span class="detail-value">Raspberry Pi 5</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Audio</span>
+                                    <span class="detail-value">4× MEMS Mics + SRP-PHAT</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">VAD</span>
+                                    <span class="detail-value">Silero Voice Activity Detection</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Streaming</span>
+                                    <span class="detail-value">RTSP via MediaMTX</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Raspberry Pi</span>
+                                <span class="tag">IoT</span>
+                                <span class="tag">Computer Vision</span>
+                                <span class="tag">Audio DSP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4: RoboGambit -->
+                    <div class="project-card tilt-card reveal-right">
+                        <div class="project-image-wrapper">
+                            <img src="assets/robogambit_cover.png" alt="RoboGambit – Autonomous Chess Robot"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/ROBOGAMBIT" target="_blank"
+                                        rel="noopener" class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot completed"></span> Completed
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">RoboGambit – Autonomous Chess Robot</h3>
+                            <p class="project-description">An autonomous 6x6 chess engine serving as the brain for a
+                                physical chess robot. Features a highly optimized <span class="highlight">Minimax
+                                    algorithm with Alpha-Beta pruning</span>, Piece-Square Tables (PSTs) evaluation, and
+                                robust legal move generation.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Algorithm</span>
+                                    <span class="detail-value">Minimax + Alpha-Beta Pruning</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Evaluation</span>
+                                    <span class="detail-value">Material + Positional PSTs</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Board</span>
+                                    <span class="detail-value">6x6 (NumPy Array based)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Language</span>
+                                    <span class="detail-value">Python</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">AI</span>
+                                <span class="tag">Minimax</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">NumPy</span>
+                                <span class="tag">Robotics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 5: Custom ResNet-50 -->
+                    <div class="project-card tilt-card reveal-left">
+                        <div class="project-image-wrapper">
+                            <img src="assets/resnet50_cover.png" alt="Custom ResNet-50 Pipeline"
+                                class="project-image">
+                            <div class="project-overlay">
+                                <div class="project-overlay-content">
+                                    <a href="https://github.com/amey1942007/Custom_Resnet50" target="_blank"
+                                        rel="noopener" class="project-link-btn">
+                                        <i class="fab fa-github"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot completed"></span> Done (Improving)
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Custom ResNet-50 – VOC Classification</h3>
+                            <p class="project-description">A complete computer vision pipeline training a <span class="highlight">custom ResNet-50 from scratch</span> on the Pascal VOC 2012 dataset. Features multi-label classification, Docker support, and a visualization block for predictions.</p>
+                            <div class="project-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Architecture</span>
+                                    <span class="detail-value">Custom ResNet-50</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Dataset</span>
+                                    <span class="detail-value">Pascal VOC 2012</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Loss</span>
+                                    <span class="detail-value">BCEWithLogitsLoss</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Accuracy</span>
+                                    <span class="detail-value">92.8%</span>
+                                </div>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">PyTorch</span>
+                                <span class="tag">ResNet</span>
+                                <span class="tag">Computer Vision</span>
+                                <span class="tag">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 6: Fashion MNIST -->
+                    <div class="project-card tilt-card reveal-right">
                         <div class="project-image-wrapper">
                             <img src="assets/fashion_mnist_project.png" alt="Fashion MNIST PyTorch Classifier"
                                 class="project-image">
@@ -542,171 +598,6 @@
                         </div>
                     </div>
 
-                    <!-- Project 2: ROS Lidar Bot -->
-                    <div class="project-card tilt-card reveal-right">
-                        <div class="project-image-wrapper">
-                            <img src="assets/slam_robot_project.png" alt="ROS Lidar Bot – SLAM Robot"
-                                class="project-image">
-                            <div class="project-overlay">
-                                <div class="project-overlay-content">
-                                    <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank"
-                                        rel="noopener" class="project-link-btn">
-                                        <i class="fab fa-github"></i> View on GitHub
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="project-status">
-                                <span class="status-dot in-progress"></span> In Development
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h3 class="project-title">ROS Lidar Bot – SLAM Autonomous Robot</h3>
-                            <p class="project-description">A comprehensive differential-drive mobile robot running
-                                on <span class="highlight">ROS2 Humble</span> with Gazebo Ignition. Equipped with 2D
-                                LiDAR for
-                                real-time SLAM mapping via SLAM Toolbox, Nav2 path planning, and custom
-                                teleoperation.</p>
-                            <div class="project-details">
-                                <div class="detail-item">
-                                    <span class="detail-label">Platform</span>
-                                    <span class="detail-value">ROS2 Humble + Gazebo Ignition</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">SLAM</span>
-                                    <span class="detail-value">SLAM Toolbox (Async)</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Navigation</span>
-                                    <span class="detail-value">Nav2 + DWB Planner</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Model</span>
-                                    <span class="detail-value">URDF/Xacro with LiDAR Plugin</span>
-                                </div>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag">ROS2</span>
-                                <span class="tag">SLAM</span>
-                                <span class="tag">Gazebo</span>
-                                <span class="tag">Python</span>
-                                <span class="tag">Nav2</span>
-                            </div>
-                            <div class="project-roadmap">
-                                <h4><i class="fas fa-road"></i> Roadmap</h4>
-                                <ul>
-                                    <li><i class="fas fa-camera"></i> Depth Camera + OpenCV</li>
-                                    <li><i class="fas fa-microchip"></i> Raspberry Pi Hardware Port</li>
-                                    <li><i class="fas fa-users"></i> Multi-Robot Fleet Operations</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 3: RoboGambit -->
-                    <div class="project-card tilt-card reveal-left">
-                        <div class="project-image-wrapper">
-                            <img src="assets/robogambit_cover.png" alt="RoboGambit – Autonomous Chess Robot"
-                                class="project-image">
-                            <div class="project-overlay">
-                                <div class="project-overlay-content">
-                                    <a href="https://github.com/amey1942007/ROBOGAMBIT" target="_blank"
-                                        rel="noopener" class="project-link-btn">
-                                        <i class="fab fa-github"></i> View on GitHub
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="project-status">
-                                <span class="status-dot completed"></span> Completed
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h3 class="project-title">RoboGambit – Autonomous Chess Robot</h3>
-                            <p class="project-description">An autonomous 6x6 chess engine serving as the brain for a
-                                physical chess robot. Features a highly optimized <span class="highlight">Minimax
-                                    algorithm with Alpha-Beta pruning</span>, Piece-Square Tables (PSTs) evaluation, and
-                                robust legal move generation.</p>
-                            <div class="project-details">
-                                <div class="detail-item">
-                                    <span class="detail-label">Algorithm</span>
-                                    <span class="detail-value">Minimax + Alpha-Beta Pruning</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Evaluation</span>
-                                    <span class="detail-value">Material + Positional PSTs</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Board</span>
-                                    <span class="detail-value">6x6 (NumPy Array based)</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Language</span>
-                                    <span class="detail-value">Python</span>
-                                </div>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag">AI</span>
-                                <span class="tag">Minimax</span>
-                                <span class="tag">Python</span>
-                                <span class="tag">NumPy</span>
-                                <span class="tag">Robotics</span>
-                            </div>
-                            <div class="project-roadmap">
-                                <h4><i class="fas fa-road"></i> Upcoming</h4>
-                                <ul>
-                                    <li><i class="fas fa-microchip"></i> Hardware Integration</li>
-                                    <li><i class="fas fa-robot"></i> Robotic Arm Control</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 4: Custom ResNet-50 -->
-                    <div class="project-card tilt-card reveal-right">
-                        <div class="project-image-wrapper">
-                            <img src="assets/resnet50_cover.png" alt="Custom ResNet-50 Pipeline"
-                                class="project-image">
-                            <div class="project-overlay">
-                                <div class="project-overlay-content">
-                                    <a href="https://github.com/amey1942007/Custom_Resnet50" target="_blank"
-                                        rel="noopener" class="project-link-btn">
-                                        <i class="fab fa-github"></i> View on GitHub
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="project-status">
-                                <span class="status-dot completed"></span> Done (Improving)
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h3 class="project-title">Custom ResNet-50 – VOC Classification</h3>
-                            <p class="project-description">A complete computer vision pipeline training a <span class="highlight">custom ResNet-50 from scratch</span> on the Pascal VOC 2012 dataset. Features multi-label classification, Docker support, and a visualization block for predictions. This model is being integrated into the <a href="https://github.com/amey1942007/Ros_lidar_bot" target="_blank" style="color: var(--green-primary); text-decoration: none;">ROS Lidar Bot</a> for advanced perception.</p>
-                            <div class="project-details">
-                                <div class="detail-item">
-                                    <span class="detail-label">Architecture</span>
-                                    <span class="detail-value">Custom ResNet-50</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Dataset</span>
-                                    <span class="detail-value">Pascal VOC 2012</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Loss</span>
-                                    <span class="detail-value">BCEWithLogitsLoss</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Accuracy</span>
-                                    <span class="detail-value">92.8%</span>
-                                </div>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">PyTorch</span>
-                                <span class="tag">ResNet</span>
-                                <span class="tag">Computer Vision</span>
-                                <span class="tag">Docker</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -802,8 +693,7 @@
                             <h3>Activity Head – TRYST 2026</h3>
                             <h4>IIT Delhi Annual Tech Festival</h4>
                             <p>Leading activity planning and coordination for TRYST, IIT Delhi's flagship annual
-                                technical
-                                festival.</p>
+                                technical festival.</p>
                         </div>
                     </div>
                     <div class="timeline-item reveal-right">
@@ -857,21 +747,10 @@
                 </h2>
                 <div class="contact-grid">
                     <div class="contact-info-panel reveal-left">
-                        <div class="contact-terminal">
-                            <div class="terminal-header">
-                                <span class="terminal-dot red"></span>
-                                <span class="terminal-dot yellow"></span>
-                                <span class="terminal-dot green"></span>
-                                <span class="terminal-title">get_in_touch.sh</span>
-                            </div>
-                            <div class="terminal-body">
-                                <p class="terminal-line"><span class="prompt">$</span> echo "Let's build something
-                                    amazing"
-                                </p>
-                                <p class="terminal-output">I'm always open to discussing new projects, creative
-                                    ideas, or
-                                    opportunities to be part of your vision.</p>
-                            </div>
+                        <div class="contact-info-card">
+                            <h3 class="contact-card-title">Let's build something amazing</h3>
+                            <p class="contact-card-text">I'm always open to discussing new projects, creative
+                                ideas, or opportunities to be part of your vision.</p>
                         </div>
                         <div class="contact-links">
                             <a href="mailto:ameychaudhari19@gmail.com" class="contact-link-item">
@@ -965,43 +844,20 @@
                     <span class="terminal-prompt">&gt;</span> Designed & built by <span class="highlight">Amey
                         Chaudhari</span> &copy; 2026
                 </p>
-                <p class="footer-tagline">Made with <i class="fas fa-heart" style="color: #00ff41;"></i> and lots of
-                    <i class="fas fa-coffee" style="color: #00ff41;"></i>
+                <p class="footer-tagline">Made with <i class="fas fa-heart" style="color: var(--accent-primary);"></i> and lots of
+                    <i class="fas fa-coffee" style="color: var(--accent-primary);"></i>
                 </p>
             </div>
         </footer>
 
     </div><!-- end #main-content -->
 
-
-
-    <!-- Interactive Terminal (Hidden by default) -->
-    <div id="interactive-terminal" class="terminal-hidden">
-        <div class="terminal-header">
-            <span class="terminal-dot red"></span>
-            <span class="terminal-dot yellow"></span>
-            <span class="terminal-dot green"></span>
-            <span class="terminal-title">guest@amey-os:~</span>
-            <button id="close-terminal-btn" aria-label="Close Terminal"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="terminal-body" id="interactive-terminal-body">
-            <div class="terminal-output" id="interactive-terminal-output">
-                <div>Welcome to AmeyOS v4.2.</div>
-                <div>Type 'help' to see available commands.</div>
-            </div>
-            <div class="terminal-input-line">
-                <span class="prompt">guest@amey-os:~$</span>
-                <input type="text" id="interactive-terminal-input" autocomplete="off" spellcheck="false">
-            </div>
-        </div>
-    </div>
-
     <!-- Custom Hacker Cursor -->
     <div id="custom-cursor"></div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>
